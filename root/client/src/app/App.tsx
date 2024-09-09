@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react"
 import { LatLngLiteral } from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import './App.css'
 
 interface Position extends LatLngLiteral {
-  id: number
+  userId: number
 }
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   const [connected, setConnected] = useState(false);
 
   const successCallback = (position: GeolocationPosition) => {
-    setMyPosition({ id: Date.now(), lat: position.coords.latitude, lng: position.coords.longitude })
+    setMyPosition({ userId: Date.now(), lat: position.coords.latitude, lng: position.coords.longitude })
   };
 
   const errorCallback = (error: GeolocationPositionError) => {
@@ -27,11 +28,13 @@ function App() {
   const socket = useRef<WebSocket>()
 
   function connect() {
-    
+
+    // socket.current = new WebSocket('https://leafletmap-glmu.onrender.com/')
     socket.current = new WebSocket('ws://localhost:8080')
 
     socket.current.onopen = () => {
       console.log('Connected')
+      socket.current?.send(JSON.stringify(myPosition?.userId + ' connected'))
       setConnected(true)
     }
 
@@ -57,7 +60,9 @@ function App() {
   }, [myPosition])
 
   if (!connected) return (
-    <button onClick={connect}>Connect</button>
+    <div className="container">
+      <button onClick={connect}>Connect</button>
+    </div>
   )
 
   return (
