@@ -11,7 +11,12 @@ const PORT = process.env.PORT || 3000;
 const app = (0, express_1.default)();
 (0, appConfig_1.configure)(app);
 const server = http_1.default.createServer(app);
-server.on('request', app);
+app.get('/', (req, res, next) => {
+    // res.setHeader('upgrade', 'websocket');
+    // res.setHeader('connection', 'Upgrade');
+    res.send('working');
+    // res.send(req.headers)
+});
 console.log(`Attempting to run server on port ${PORT}`);
 server.listen(PORT, () => console.log(`App listening on port ${PORT}`));
 // const webSocketServer = new WebSocketServer({ server });

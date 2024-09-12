@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.configure = void 0;
 const express_1 = __importDefault(require("express"));
+const cors_1 = __importDefault(require("cors"));
 const user_routes_1 = require("../routes/user.routes");
 const configure = (app) => {
     app
         // .use(bodyParser.urlencoded({ extended: false }))
         // .use(express.urlencoded({ extended: false }))
-        // .use(cors<Request>()) // must be first
-        // .use(bodyParser.json())
+        .use((0, cors_1.default)()) // must be first
         .use(express_1.default.json())
         .use('/api', user_routes_1.userRouter);
     // .get('/', (req, res: Response, next) => {

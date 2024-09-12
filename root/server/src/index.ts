@@ -1,8 +1,10 @@
 import 'dotenv/config'
-import express from 'express';
+import express, { Application, Request, Response, NextFunction, Router } from 'express';
 import http from 'http';
+import cors from 'cors';
 import WebSocket, { WebSocketServer } from 'ws'
 import { configure } from './config/appConfig';
+import { userRouter } from './routes/user.routes';
 
 const PORT = process.env.PORT || 3000
 
@@ -11,7 +13,13 @@ const app = express()
 configure(app);
 
 const server = http.createServer(app);
-server.on('request', app)
+
+app.get('/', (req, res: Response, next) => {
+    // res.setHeader('upgrade', 'websocket');
+    // res.setHeader('connection', 'Upgrade');
+    res.send('working');
+    // res.send(req.headers)
+})
 
 console.log(`Attempting to run server on port ${PORT}`);
 

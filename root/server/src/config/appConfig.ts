@@ -8,8 +8,7 @@ export const configure = (app: Application) => {
     app
         // .use(bodyParser.urlencoded({ extended: false }))
         // .use(express.urlencoded({ extended: false }))
-        // .use(cors<Request>()) // must be first
-        // .use(bodyParser.json())
+        .use(cors<Request>()) // must be first
         .use(express.json())
         .use('/api', userRouter)
         // .get('/', (req, res: Response, next) => {
