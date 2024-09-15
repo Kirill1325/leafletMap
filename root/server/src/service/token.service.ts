@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken'
 import { pool } from '../config/dbConfig'
 import { QueryResult } from 'pg'
-import { UserDto } from '../dtos/user.dto'
 
 interface TokenData {
     email: string
     id: string
     isActivated: boolean
 }
+
+// TODO: add injection defence
 
 class TokenService {
     async generateTokens(payload: TokenData) {
@@ -27,6 +28,34 @@ class TokenService {
 
         return token
     }
+
+    async removeToken(refreshToken: string) {
+        await pool.query('DELETE FROM token WHERE refresh_token = $1', [refreshToken])
+    }
+
+    async findToken(refreshToken: string) {
+        const tokenData = await pool.query('SELECT * FROM token WHERE refresh_token = $1', [refreshToken])
+        return tokenData
+    }
+
+    validateRefreshToken(refreshToken: string) {
+        try {
+            const userData = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)
+            return userData as TokenData
+        } catch (e) {
+            return null
+        }
+    }
+
+    validateAccessToken(accessToken: string) {
+        try {
+            const userData = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET)
+            return userData
+        } catch (e) {
+            return null
+        }
+    }
+
 }
 
 
