@@ -6,14 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.configure = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const user_routes_1 = require("../routes/user.routes");
+// import { authRouter } from '../routes/auth.routes';
 const configure = (app) => {
     app
         // .use(bodyParser.urlencoded({ extended: false }))
         // .use(express.urlencoded({ extended: false }))
         .use((0, cors_1.default)()) // must be first
+        .use((0, cookie_parser_1.default)())
         .use(express_1.default.json())
         .use('/api', user_routes_1.userRouter);
+    // .use('/auth', authRouter)
     // .get('/', (req, res: Response, next) => {
     //     // res.setHeader('upgrade', 'websocket');
     //     // res.setHeader('connection', 'Upgrade');

@@ -4,9 +4,10 @@ exports.userRouter = void 0;
 const express_1 = require("express");
 const user_controller_1 = require("../controllers/user.controller");
 exports.userRouter = (0, express_1.Router)();
-exports.userRouter.post('/user', user_controller_1.userController.createUser);
-// userRouter.get('/user:id', userController.getUserById)
-// userRouter.get('/user', userController.getUsers)
-// userRouter.put('/user', userController.updateUser)
-// userRouter.delete('/user:id', userController.deleteUser)
+const userController = new user_controller_1.UserController();
+exports.userRouter.post('/registration', userController.registration);
+exports.userRouter.post('/login', userController.login);
+exports.userRouter.post('/logout', userController.logout);
+exports.userRouter.get('/activate/:link', userController.activate);
+exports.userRouter.get('/refresh', userController.refresh);
 //# sourceMappingURL=user.routes.js.map

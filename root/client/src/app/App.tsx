@@ -112,7 +112,7 @@ function App() {
         </Marker>
 
         {/* TODO: change key to id */}
-        {users && users.map((user, idx) =>
+        {users && users.map(user =>
           <Marker key={user.userId} position={user.position}>
             <Popup>
               A pretty CSS3 popup. <br /> {users.indexOf(user)}
