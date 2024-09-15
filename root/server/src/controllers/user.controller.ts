@@ -62,4 +62,13 @@ export class UserController {
             console.log(e)
         }
     }
+
+    async getUsers(req: Request, res: Response) {
+        try {
+            const users = await userService.getUsers()
+            return res.json(users)
+        } catch (e) {
+            console.log(e)
+        }
+    }
 }

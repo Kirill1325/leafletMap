@@ -10,4 +10,5 @@ exports.userRouter.post('/login', userController.login);
 exports.userRouter.post('/logout', userController.logout);
 exports.userRouter.get('/activate/:link', userController.activate);
 exports.userRouter.get('/refresh', userController.refresh);
+exports.userRouter.get('/users', userController.getUsers);
 //# sourceMappingURL=user.routes.js.map

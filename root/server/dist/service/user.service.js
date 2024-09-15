@@ -65,6 +65,10 @@ class UserService {
             user: { ...userDto }
         };
     }
+    async getUsers() {
+        const users = await dbConfig_1.pool.query('SELECT * FROM person');
+        return users.rows;
+    }
 }
 exports.userService = new UserService();
 //# sourceMappingURL=user.service.js.map

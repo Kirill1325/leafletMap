@@ -83,6 +83,13 @@ class UserService {
         }
     }
 
+    async getUsers() {
+
+        const users = await pool.query('SELECT * FROM person')
+
+        return users.rows
+    }
+
 }
 
 export const userService = new UserService()

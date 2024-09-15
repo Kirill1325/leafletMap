@@ -56,6 +56,15 @@ class UserController {
             console.log(e);
         }
     }
+    async getUsers(req, res) {
+        try {
+            const users = await user_service_1.userService.getUsers();
+            return res.json(users);
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 }
 exports.UserController = UserController;
 //# sourceMappingURL=user.controller.js.map
