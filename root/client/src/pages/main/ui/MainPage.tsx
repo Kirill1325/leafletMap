@@ -4,6 +4,10 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { userApi } from "../../../entities/UserCard/api/userService";
 import { redirect, useNavigate } from "react-router-dom";
+import { LoginForm } from "../../../widgets/LoginForm";
+import { UserDto } from "../../../entities/UserCard/model/types";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
+import { setUser } from "../../../entities/UserCard/model/userSlice";
 
 interface User {
   userId: number,
@@ -14,18 +18,25 @@ export const MainPage = () => {
 
   const navigate = useNavigate()
 
+  const dispatch = useAppDispatch()
+
+
+  const [refresh] = userApi.useRefreshMutation()
+
+  const [logout] = userApi.useLogoutMutation()
+
+  const { user } = useAppSelector(state => state.userSlice)
+
   useEffect(() => {
-
-    const isLogged = localStorage.getItem('isLogged')
+    const isLogged = localStorage.getItem('token')
     console.log(isLogged)
+    if (isLogged) {
+      refresh().unwrap().then(userFetced => {
+        console.log(userFetced.user)
+        dispatch(setUser(userFetced.user))
+      })
+    } 
 
-    const redir = () => {
-      if (!isLogged) {
-        navigate("/registration");
-      }
-    }
-
-    redir()
   }, [])
 
   const [myPosition, setMyPosition] = useState<User>()
@@ -50,9 +61,9 @@ export const MainPage = () => {
     console.log(error);
   };
 
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
-  // }, [])
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+  }, [])
 
   // useEffect(() => {
   //   console.log(users)
@@ -63,7 +74,7 @@ export const MainPage = () => {
   function connect() {
 
     // socket.current = new WebSocket('https://leafletmap-glmu.onrender.com/')
-    socket.current = new WebSocket('ws://localhost:8080/api/connect')
+    socket.current = new WebSocket('ws://localhost:8082/api')
 
     socket.current.onopen = () => {
       console.log('Connected')
@@ -101,47 +112,56 @@ export const MainPage = () => {
     return () => clearInterval(timeoutId)
   }, [myPosition])
 
-  // if (!connected) return (
-  //   <div className="container">
-  //     <button onClick={connect}>Connect</button>
-  //     <button onClick={() => red()}>redirect</button>
-  //     {/* <button onClick={() => createUser({ username: 'test' })}>ccreate</button> */}
-  //   </div>
-  // )
-
   const handleLogout = () => {
+    logout()
     localStorage.clear()
-    navigate('/registration')
+    dispatch(setUser({} as UserDto))
   }
 
+  if (!connected) return (
+    <div className="container">
+      <button onClick={connect}>Connect</button>
+      <button onClick={handleLogout}>logout</button>
+      {user.email
+        ?
+        <div>
+          <p>you're logged in</p>
+          <p>{user.email}</p>
+        </div>
+        :
+        <LoginForm />
+      }
+    </div>
+  )
+
   return (
-    <>
-      <p>map here</p>
-      <button onClick={() => handleLogout()}>logout</button>
-    </>
-    // myPosition &&
-    // <MapContainer center={myPosition.position} zoom={13} style={{ height: '100vh' }}>
-    //   <TileLayer
-    //     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    //     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-    //   />
+    // <>
+    //   <p>map here</p>
+    //   <button onClick={() => handleLogout()}>logout</button>
+    // </>
+    myPosition &&
+    <MapContainer center={myPosition.position} zoom={13} style={{ height: '100vh' }}>
+      <TileLayer
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
 
-    //   <MarkerClusterGroup>
-    //     <Marker position={myPosition.position}>
-    //       <Popup>
-    //         A pretty CSS3 popup. <br /> Easily customizable.
-    //       </Popup>
-    //     </Marker>
+      <MarkerClusterGroup>
+        <Marker position={myPosition.position}>
+          <Popup>
+            A pretty CSS3 popup. <br /> Easily customizable.
+          </Popup>
+        </Marker>
 
-    //     {/* TODO: change key to id */}
-    //     {users && users.map(user =>
-    //       <Marker key={user.userId} position={user.position}>
-    //         <Popup>
-    //           A pretty CSS3 popup. <br /> {users.indexOf(user)}
-    //         </Popup>
-    //       </Marker>
-    //     )}
-    //   </MarkerClusterGroup>
-    // </MapContainer>
+        {/* TODO: change key to id */}
+        {users && users.map(user =>
+          <Marker key={user.userId} position={user.position}>
+            <Popup>
+              A pretty CSS3 popup. <br /> {users.indexOf(user)}
+            </Popup>
+          </Marker>
+        )}
+      </MarkerClusterGroup>
+    </MapContainer>
   )
 }

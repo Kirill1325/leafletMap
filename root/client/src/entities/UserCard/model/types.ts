@@ -8,10 +8,11 @@ export type User = {
     // activation_link: string
 }
 
-type UserDto = {
+export type UserDto = {
+    username: string
     email: string
     id: string
-    isActivated: boolean
+    // isActivated: boolean
 }
 
 export type Response = {

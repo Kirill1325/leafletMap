@@ -1,9 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { userApi } from '../entities/UserCard'
+import userSlice from '../entities/UserCard/model/userSlice'
 
 const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
+  userSlice
 })
 
 const store = configureStore({

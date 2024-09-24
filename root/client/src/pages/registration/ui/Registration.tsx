@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react"
 import { userApi } from "../../../entities/UserCard"
 import { useNavigate } from "react-router-dom"
+import { useAppDispatch } from "../../../app/store"
+import { setUser } from "../../../entities/UserCard/model/userSlice"
 
 export const Registration = () => {
 
-  const [registration, result] = userApi.useRegistrationMutation()
+  const dispatch = useAppDispatch()
+
+  const [registration] = userApi.useRegistrationMutation()
 
   const [username, setUername] = useState('')
   const [email, setEmail] = useState('')
@@ -12,14 +16,26 @@ export const Registration = () => {
 
   const navigate = useNavigate()
 
-  const handleRegistration = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleRegistration = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    registration({ username: username, email: email, password: password })
-    setUername('')
-    setPassword('')
-    setEmail('')
-    localStorage.setItem('isLogged', 'true')
-    navigate('/')
+
+    try {
+      registration({ username: username, email: email, password: password })
+        .unwrap()
+        .then(fulfilled => {
+          console.log(fulfilled)
+          localStorage.setItem('token', JSON.stringify(fulfilled.accessToken))
+          dispatch(setUser(fulfilled.user))
+          navigate('/')
+        })
+        .catch(rejected => console.error(rejected))
+
+      setUername('')
+      setPassword('')
+      setEmail('')
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   return (

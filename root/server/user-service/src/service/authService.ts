@@ -1,22 +1,24 @@
 import { pool } from "../config/dbConfig";
 import bcrypt from 'bcrypt'
-import { UserDto } from "../dtos/user.dto";
-import { tokenService } from "./token.service";
+import { UserDto } from "../dtos/userDto";
+import { tokenService } from "./tokenService";
+import { ApiError } from "../exceptions/apiError";
 
 // TODO: add injection defence
 
 class AuthService {
 
     async registration(username: string, email: string, password: string) {
+        console.log(username, email, password)
 
         const mailCandidate = await pool.query('SELECT * FROM person WHERE email = $1', [email])
         const usernameCandidate = await pool.query('SELECT * FROM person WHERE username = $1', [username])
 
         if (mailCandidate.rows.length > 0) {
-            throw new Error('User with this email already exists')
+            throw ApiError.BadRequest('User with this email already exists')
         }
         if (usernameCandidate.rows.length > 0) {
-            throw new Error('This username already exists')
+            throw ApiError.BadRequest('This username already exists')
         }
 
         const hashPassword = await bcrypt.hash(password, 12)
@@ -39,7 +41,7 @@ class AuthService {
         const user = await pool.query('SELECT * FROM person WHERE email = $1', [email])
 
         if (user.rows.length === 0) {
-            throw new Error('User not found')
+            throw ApiError.BadRequest('User not found')
         }
 
         const userDto = new UserDto(user.rows[0])
@@ -47,7 +49,7 @@ class AuthService {
         const isPasswordEquals = await bcrypt.compare(password, user.rows[0].password)
 
         if (!isPasswordEquals) {
-            throw new Error('Password is wrong')
+            throw ApiError.BadRequest('Password is wrong')
         }
 
         const tokens = await tokenService.generateTokens({ ...userDto })
@@ -67,7 +69,7 @@ class AuthService {
     async refresh(refreshToken: string) {
 
         if (!refreshToken) {
-            throw new Error('No refresh token')
+            throw ApiError.BadRequest('No refresh token')
         }
 
         const userData = tokenService.validateRefreshToken(refreshToken)
@@ -76,7 +78,7 @@ class AuthService {
         const tokenFromDb = await tokenService.findToken(refreshToken)
 
         if (!userData || !tokenFromDb) {
-            throw new Error('Invalid token')
+            throw ApiError.BadRequest('Invalid token')
         }
 
         const user = await pool.query('SELECT * FROM person WHERE id = $1', [userData.id])

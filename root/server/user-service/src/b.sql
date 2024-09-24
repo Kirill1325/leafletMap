@@ -12,3 +12,9 @@ CREATE TABLE token(
     user_id integer REFERENCES person (id),
     refresh_token VARCHAR(255)
 );
+
+CREATE TABLE positions(
+    user_id integer,
+    lat integer,
+    lng integer
+);

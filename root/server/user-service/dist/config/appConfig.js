@@ -7,15 +7,17 @@ exports.configure = void 0;
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const auth_routes_1 = require("../routes/auth.routes");
-const user_routes_1 = require("../routes/user.routes");
+const authRoutes_1 = require("../routes/authRoutes");
+const userRoutes_1 = require("../routes/userRoutes");
+const errorMiddleware_1 = require("../middleware/errorMiddleware");
 const configure = (app) => {
     app
-        .use((0, cors_1.default)()) // must be first
         .use((0, cookie_parser_1.default)())
+        .use((0, cors_1.default)({ credentials: true, origin: 'http://localhost:5173' }))
         .use(express_1.default.json())
-        .use('/auth', auth_routes_1.authRouter)
-        .use('/api', user_routes_1.userRouter)
+        .use('/auth', authRoutes_1.authRouter)
+        .use('/api', userRoutes_1.userRouter)
+        .use(errorMiddleware_1.errorMiddleware)
         .get('/', (req, res, next) => {
         res.send('working');
     });
