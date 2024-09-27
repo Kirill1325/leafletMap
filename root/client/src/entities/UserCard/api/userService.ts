@@ -1,8 +1,9 @@
-import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Response, User } from '../model/types'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:8081/',
+    // baseUrl: 'https://leafletmap-glmu.onrender.com/',
+    baseUrl: 'http://localhost:8080/',
     'credentials': 'include'
 })
 
@@ -15,7 +16,7 @@ export const userApi = createApi({
 
         registration: builder.mutation<Response, Partial<User>>({
             query: (user) => ({
-                url: 'auth/registration/',
+                url: 'registration/',
                 method: 'POST',
                 body: user,
                 headers: {
@@ -27,7 +28,7 @@ export const userApi = createApi({
 
         login: builder.mutation<Response, Partial<User>>({
             query: (user) => ({
-                url: 'auth/login/',
+                url: 'login/',
                 method: 'POST',
                 body: user,
                 headers: {
@@ -39,7 +40,7 @@ export const userApi = createApi({
 
         refresh: builder.mutation<Response, void>({
             query: () => ({
-                url: '/auth/refresh',
+                url: 'refresh',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -50,7 +51,7 @@ export const userApi = createApi({
 
         logout: builder.mutation<string, void>({
             query: () => ({
-                url: '/auth/logout',
+                url: 'logout',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

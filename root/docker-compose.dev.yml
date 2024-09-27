@@ -1,0 +1,61 @@
+services:
+
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_DB: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "uzbek"
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    restart: always
+    
+
+  server:
+    container_name: server
+    build:
+        context: ./server
+        dockerfile: Dockerfile
+    tty: true
+    working_dir: /server
+    env_file:
+      - .env
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+
+  client:
+    container_name: client
+    build:
+        context: ./client
+        dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    working_dir: /client
+    # volumes:
+    #   - ./app:/client
+    #   - ./static:/static
+    env_file:
+      - .env
+    ports:
+      - '5173:5173'
+
+  nginx:
+    container_name: proxy_nginx
+    depends_on:
+      - server
+      - client
+      - postgres
+    image: nginx:latest
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./static:/var/www/static
+    restart: always
+
+volumes:
+  postgres:
