@@ -9,8 +9,8 @@ export const configure = (app: Application) => {
 
     app
         .use(cookieParser())
-        .use(cors<Request>({ credentials: true, origin: 'https://leaflet-map-iota.vercel.app/' })) 
-        // .use(cors<Request>({ credentials: true, origin: 'http://localhost:5173' })) 
+        // .use(cors<Request>({ credentials: true, origin: 'https://leaflet-map-iota.vercel.app/' })) 
+        .use(cors<Request>({ credentials: true, origin: 'http://localhost:5173' })) 
         .use(express.json())
         .use('/', authRouter)
         // .use('/api', userRouter)
