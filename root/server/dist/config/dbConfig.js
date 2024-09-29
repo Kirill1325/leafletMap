@@ -7,7 +7,6 @@ exports.createTables = exports.pool = void 0;
 require("dotenv/config");
 const pg_1 = __importDefault(require("pg"));
 const { Pool } = pg_1.default;
-// const connectionString = 'postgresql://leaflet_sss5_user:99RjsTYVk4ON1ZRGO6FACC6kTmBZb1dO@dpg-crpfa9jtq21c7399q80g-a.oregon-postgres.render.com:5432/leaflet_sss5?ssl=true'
 exports.pool = new Pool({
     connectionString: process.env.DB_URL
     // host: process.env.DB_HOST,

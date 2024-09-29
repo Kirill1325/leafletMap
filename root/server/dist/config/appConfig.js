@@ -12,7 +12,8 @@ const errorMiddleware_1 = require("../middleware/errorMiddleware");
 const configure = (app) => {
     app
         .use((0, cookie_parser_1.default)())
-        .use((0, cors_1.default)({ credentials: true, origin: 'http://localhost:5173' }))
+        .use((0, cors_1.default)({ credentials: true, origin: 'https://leaflet-map-iota.vercel.app/' }))
+        // .use(cors<Request>({ credentials: true, origin: 'http://localhost:5173' })) 
         .use(express_1.default.json())
         .use('/', authRoutes_1.authRouter)
         // .use('/api', userRouter)
