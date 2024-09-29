@@ -21,7 +21,8 @@ export const userApi = createApi({
                 body: user,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': 'https://leaflet-map-iota.vercel.app/',
+                    // 'Access-Control-Allow-Origin': 'http://localhost:5173/',
                 },
             })
         }),
@@ -33,7 +34,8 @@ export const userApi = createApi({
                 body: user,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': 'https://leaflet-map-iota.vercel.app/',
+                    // 'Access-Control-Allow-Origin': 'http://localhost:5173/',
                 },
             })
         }),
@@ -44,7 +46,8 @@ export const userApi = createApi({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': 'https://leaflet-map-iota.vercel.app/',
+                    // 'Access-Control-Allow-Origin': 'http://localhost:5173/',
                 },
             })
         }),
@@ -55,7 +58,8 @@ export const userApi = createApi({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': 'https://leaflet-map-iota.vercel.app/',
+                    // 'Access-Control-Allow-Origin': 'http://localhost:5173/',
                 },
             })
         })
