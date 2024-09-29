@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Response, User } from '../model/types'
 
 const baseQuery = fetchBaseQuery({
-    // baseUrl: 'https://leafletmap-glmu.onrender.com/',
-    baseUrl: 'http://localhost:8080/',
+    baseUrl: 'https://leafletmap-glmu.onrender.com/',
+    // baseUrl: 'http://localhost:8080/',
     'credentials': 'include'
 })
 
