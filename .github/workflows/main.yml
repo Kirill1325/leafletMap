@@ -14,7 +14,6 @@ jobs:
         env:
           VITE_SERVER_URL: https://leafletmap-glmu.onrender.com/
         run: echo "$CLIENT_URL $SERVER_URL $VITE_SERVER_URL $DB_URL"
-        working-directory: client
       - name: Modify .env file
         run: |
           # Replace the value of a specific environment variable in .env file
