@@ -11,5 +11,5 @@ jobs:
       DB_URL: ${{secrets.DB_URL}}
     steps:
       - name: "Say Hello Mona it's Monday"
-        run: echo "$CLIENT_URL $SERVER_URL."
+        run: echo "$CLIENT_URL $SERVER_URL $DB_URL"
         
