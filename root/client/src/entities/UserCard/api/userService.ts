@@ -1,4 +1,3 @@
-import dotenv from 'dotenv'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Response, User } from '../model/types'
 
@@ -6,8 +5,6 @@ const baseQuery = fetchBaseQuery({
     baseUrl: process.env.SERVER_URL,
     'credentials': 'include'
 })
-
-dotenv.config({path:'../../../../../.env'})
 
 export const userApi = createApi({
     reducerPath: 'userApi',
