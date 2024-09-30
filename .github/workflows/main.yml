@@ -16,4 +16,4 @@ jobs:
         run: echo "$CLIENT_URL $SERVER_URL $VITE_SERVER_URL $DB_URL"
       - name: Modify .env file
         run: |
-          sed -i 's/VITE_SERVER_URL=.*/VITE_SERVER_URL=https://leafletmap-glmu.onrender.com//' client/.env  
+          sed -i 's|VITE_SERVER_URL=.*|VITE_SERVER_URL=https://leafletmap-glmu.onrender.com/|' client/.env
