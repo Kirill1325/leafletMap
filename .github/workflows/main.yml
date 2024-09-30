@@ -17,4 +17,4 @@ jobs:
       - name: Modify .env file
         run: |
           # Replace the value of a specific environment variable in .env file
-          sed -i 's/^SOME_ENV_VARIABLE=.*/SOME_ENV_VARIABLE=new_value/' client/.env  
+          sed -i 's/^VITE_SERVER_URL=.*/VITE_SERVER_URL=https://leafletmap-glmu.onrender.com//' client/.env  
