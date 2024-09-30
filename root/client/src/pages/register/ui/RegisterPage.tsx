@@ -10,8 +10,8 @@ import { Link, useNavigate } from 'react-router-dom'
 export const RegisterPage = () => {
 
     useEffect(() => {
-        console.log(import.meta.env.VITE_SERVER_URL)
-    })
+        console.log(import.meta.env)
+    }, [])
 
     const dispatch = useAppDispatch()
 
