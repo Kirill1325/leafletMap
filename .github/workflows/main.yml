@@ -11,7 +11,7 @@ jobs:
       DB_URL: ${{secrets.DB_URL}}
     steps:
       - name: "Say Hello Mona it's Monday"
-        working-directory: ./client
+        working-directory: client
         env:
           VITE_SERVER_URL: https://leafletmap-glmu.onrender.com/
         run: echo "$CLIENT_URL $SERVER_URL $VITE_SERVER_URL $DB_URL"
