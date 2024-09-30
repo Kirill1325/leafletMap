@@ -1,5 +1,6 @@
-import 'dotenv/config'
-import express, { Application, Request, Response, NextFunction, Router } from 'express';
+require('dotenv').config({path:'../.env'})
+
+import express from 'express';
 import http from 'http';
 import { configure } from './config/appConfig';
 import { createTables } from './config/dbConfig';

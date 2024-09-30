@@ -4,16 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createTables = exports.pool = void 0;
-require("dotenv/config");
 const pg_1 = __importDefault(require("pg"));
 const { Pool } = pg_1.default;
 exports.pool = new Pool({
     connectionString: process.env.DB_URL
-    // host: process.env.DB_HOST,
-    // user: process.env.DB_USER,
-    // password: process.env.DB_PASSWORD,
-    // database: process.env.DB_NAME,
-    // port: Number(process.env.DB_PORT)
 });
 exports.pool.on("connect", () => {
     console.log("connected to the Database");

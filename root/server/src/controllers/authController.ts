@@ -10,8 +10,8 @@ export class AuthController {
             const userData = await authService.registration(username, email, password)
             // console.log('userData', userData)
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true })
-            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-            // res.setHeader('Access-Control-Allow-Origin', 'https://leaflet-map-iota.vercel.app/');
+            
+            res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
             res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -29,8 +29,7 @@ export class AuthController {
 
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true })
 
-            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-            // res.setHeader('Access-Control-Allow-Origin', 'https://leaflet-map-iota.vercel.app/');
+            res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
             res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -48,8 +47,8 @@ export class AuthController {
             // console.log(refreshToken)
             await authService.logout(refreshToken)
             res.clearCookie('refreshToken')
-            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-            // res.setHeader('Access-Control-Allow-Origin', 'https://leaflet-map-iota.vercel.app/');
+
+            res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
             res.setHeader('Access-Control-Allow-Credentials', 'true');
@@ -75,8 +74,7 @@ export class AuthController {
 
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true })
 
-            res.setHeader('Access-Control-Allow-Origin', 'http://localhost:5173');
-            // res.setHeader('Access-Control-Allow-Origin', 'https://leaflet-map-iota.vercel.app/');
+            res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
             res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
             res.setHeader('Access-Control-Allow-Credentials', 'true');

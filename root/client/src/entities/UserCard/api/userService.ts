@@ -1,9 +1,10 @@
+require('dotenv').config({path:'../../../../../.env'})
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Response, User } from '../model/types'
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://leafletmap-glmu.onrender.com/',
-    // baseUrl: 'http://localhost:8080/',
+    // baseUrl: 'https://leafletmap-glmu.onrender.com/',
+    baseUrl: process.env.SERVER_URL,
     'credentials': 'include'
 })
 
@@ -21,8 +22,7 @@ export const userApi = createApi({
                 body: user,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
-                    // 'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': process.env.CLIENT_URL,
                 },
             })
         }),
@@ -34,7 +34,7 @@ export const userApi = createApi({
                 body: user,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': process.env.CLIENT_URL,
                 },
             })
         }),
@@ -45,7 +45,7 @@ export const userApi = createApi({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': process.env.CLIENT_URL,
                 },
             })
         }),
@@ -56,7 +56,7 @@ export const userApi = createApi({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'http://localhost:5173/',
+                    'Access-Control-Allow-Origin': process.env.CLIENT_URL,
                 },
             })
         })
