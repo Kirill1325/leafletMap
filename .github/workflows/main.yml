@@ -21,5 +21,8 @@ jobs:
       run:
         shell: bash
         working-directory: ./client
-    env:
-      VITE_SERVER_URL: https://leafletmap-glmu.onrender.com/
+    steps:
+      - name: "say"
+        env:
+          VITE_SERVER_URL: https://leafletmap-glmu.onrender.com/
+        run: echo "$VITE_SERVER_URL"
