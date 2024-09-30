@@ -1,16 +1,16 @@
-require('dotenv').config({path:'../../../../../.env'})
+import dotenv from 'dotenv'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { Response, User } from '../model/types'
 
 const baseQuery = fetchBaseQuery({
-    // baseUrl: 'https://leafletmap-glmu.onrender.com/',
     baseUrl: process.env.SERVER_URL,
     'credentials': 'include'
 })
 
-// Define a service using a base URL and expected endpoints
+dotenv.config({path:'../../../../../.env'})
+
 export const userApi = createApi({
-    // reducerPath: 'userApi',
+    reducerPath: 'userApi',
     baseQuery,
 
     endpoints: (builder) => ({
