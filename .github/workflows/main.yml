@@ -1,0 +1,14 @@
+name: workflow
+
+on: [push]
+
+jobs:
+  greeting_job:
+    runs-on: ubuntu-latest
+    env:
+      CLIENT_URL: https://leaflet-map-iota.vercel.app/
+      SERVER_URL: https://leafletmap-glmu.onrender.com/
+    steps:
+      - name: "Say Hello Mona it's Monday"
+        run: echo "$CLIENT_URL $SERVER_URL."
+        
