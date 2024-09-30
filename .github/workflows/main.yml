@@ -8,6 +8,7 @@ jobs:
     env:
       CLIENT_URL: https://leaflet-map-iota.vercel.app/
       SERVER_URL: https://leafletmap-glmu.onrender.com/
+      VITE_SERVER_URL: https://leafletmap-glmu.onrender.com/
       DB_URL: ${{secrets.DB_URL}}
     steps:
       - name: "Say Hello Mona it's Monday"
