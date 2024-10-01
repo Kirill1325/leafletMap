@@ -19,7 +19,7 @@ export const userApi = createApi({
                 body: user,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': import.meta.env.CLIENT_URL,
+                    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
                 },
             })
         }),
@@ -31,7 +31,7 @@ export const userApi = createApi({
                 body: user,
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': import.meta.env.CLIENT_URL,
+                    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
                 },
             })
         }),
@@ -42,7 +42,7 @@ export const userApi = createApi({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': import.meta.env.CLIENT_URL,
+                    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
                 },
             })
         }),
@@ -53,7 +53,7 @@ export const userApi = createApi({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': import.meta.env.CLIENT_URL,
+                    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
                 },
             })
         })
