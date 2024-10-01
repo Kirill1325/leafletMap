@@ -16,4 +16,4 @@ const server = http.createServer(app)
 
 console.log(`Attempting to run server on port ${PORT}`)
 
-server.listen(PORT, () => console.log(`App listening on port ${PORT}`))
+server.listen(PORT, () => console.log(`App listening on port ${PORT}, client is ${process.env.CLIENT_URL}`))
