@@ -9,7 +9,7 @@ export class AuthController {
             const { username, email, password } = req.body
             const userData = await authService.registration(username, email, password)
             // console.log('userData', userData)
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true })
+            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
             
             res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -27,7 +27,7 @@ export class AuthController {
             const { email, password } = req.body
             const userData = await authService.login(email, password)
 
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true })
+            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
 
             res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -72,7 +72,7 @@ export class AuthController {
             const { refreshToken } = req.cookies
             const userData = await authService.refresh(refreshToken)
 
-            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true })
+            res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })
 
             res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');

@@ -14,5 +14,5 @@ const app = (0, express_1.default)();
 (0, dbConfig_1.createTables)();
 const server = http_1.default.createServer(app);
 console.log(`Attempting to run server on port ${PORT}`);
-server.listen(PORT, () => console.log(`App listening on port ${PORT}`));
+server.listen(PORT, () => console.log(`App listening on port ${PORT}, client is ${process.env.CLIENT_URL}`));
 //# sourceMappingURL=index.js.map
