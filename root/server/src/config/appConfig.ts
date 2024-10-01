@@ -9,13 +9,14 @@ export const configure = (app: Application) => {
 
     app
         .use(cookieParser())
+        // .use(cors<Request>({ credentials: true, origin: 'http://localhost:5173' })) 
         .use(cors<Request>({ credentials: true, origin: process.env.CLIENT_URL })) 
         .use(express.json())
         .use('/', authRouter)
         // .use('/api', userRouter)
         .use(errorMiddleware)
         .get('/', (req, res: Response, next) => {
-            res.send('working');
+            res.send(process.env.CLIENT_URL);
         })
 
 }
