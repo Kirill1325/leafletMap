@@ -41,7 +41,8 @@ export const MainPage = () => {
   function connect() {
 
     // socket.current = new WebSocket('https://leafletmap-glmu.onrender.com/')
-    socket.current = new WebSocket('ws://localhost:8080/')
+    // socket.current = new WebSocket('ws://localhost:8080/')
+    socket.current = new WebSocket(import.meta.env.VITE_SERVER_URL)
 
     socket.current.onopen = () => {
       console.log('Connected')
