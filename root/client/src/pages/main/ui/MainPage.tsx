@@ -1,41 +1,62 @@
 import { useEffect, useRef, useState } from "react"
-import { LatLngLiteral } from "leaflet";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { userApi } from "../../../entities/UserCard/api/userService";
 // import { UserDto } from "../../../entities/UserCard/model/types";
-import { useAppDispatch } from "../../../app/store";
+import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { setUser } from "../../../entities/UserCard/model/userSlice";
 // import cl from './MainPage.module.scss'
 import { useNavigate } from "react-router-dom";
-
-interface User {
-  userId: number,
-  position: LatLngLiteral
-}
+import { UserPosition } from "../../../entities/UserCard/model/types";
 
 export const MainPage = () => {
 
   const dispatch = useAppDispatch()
+  const { user } = useAppSelector(state => state.userSlice)
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   const [refresh] = userApi.useRefreshMutation()
   const [logout] = userApi.useLogoutMutation()
 
-  const [myPosition, setMyPosition] = useState<User>()
+  const [myPosition, setMyPosition] = useState<UserPosition>()
 
   const navigate = useNavigate()
 
-  const successCallback = (position: GeolocationPosition) => {
-    setMyPosition({ userId: Date.now(), position: { lat: position.coords.latitude, lng: position.coords.longitude } })
-  };
-
-  const errorCallback = (error: GeolocationPositionError) => {
-    console.log(error);
-  };
+  const isLogged = localStorage.getItem('token')
 
   useEffect(() => {
-    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+
+    if (isLogged) {
+      refresh().unwrap().then(userFetced => {
+        dispatch(setUser(userFetced.user))
+      })
+
+    } else {
+      navigate('/registration')
+    }
+
   }, [])
+
+  useEffect(() => {
+    if (isLogged && user.id) {
+      connect()
+    }
+  }, [user])
+
+  useEffect(() => {
+    const successCallback = (position: GeolocationPosition) => {
+      setMyPosition({ userId: parseInt(user.id), position: { lat: position.coords.latitude, lng: position.coords.longitude } })
+    };
+
+    const errorCallback = (error: GeolocationPositionError) => {
+      console.log(error);
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
+  }, [user])
 
   const socket = useRef<WebSocket>()
 
@@ -46,7 +67,7 @@ export const MainPage = () => {
     socket.current = new WebSocket(import.meta.env.VITE_SERVER_URL)
 
     socket.current.onopen = () => {
-      console.log('Connected')
+      console.log(`${user.username} Connected`)
     }
 
     socket.current.onmessage = (event) => {
@@ -69,19 +90,6 @@ export const MainPage = () => {
     return () => clearInterval(timeoutId)
   }, [myPosition])
 
-  useEffect(() => {
-    const isLogged = localStorage.getItem('token')
-    if (isLogged) {
-      refresh().unwrap().then(userFetced => {
-        dispatch(setUser(userFetced.user))
-      })
-      connect()
-    }else{
-      navigate('/registration')
-    }
-
-  }, [])
-
   const handleLogout = () => {
     logout()
     localStorage.removeItem('token')
@@ -91,7 +99,7 @@ export const MainPage = () => {
   return (
     myPosition &&
     <div>
-      <button onClick={() => handleLogout()}>bifffffffffba</button>
+      <button onClick={() => handleLogout()}>logout</button>
       <MapContainer center={myPosition.position} zoom={13} style={{ height: '100vh' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -101,7 +109,7 @@ export const MainPage = () => {
         <MarkerClusterGroup>
           <Marker position={myPosition.position}>
             <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
+              {user.username}
             </Popup>
           </Marker>
 

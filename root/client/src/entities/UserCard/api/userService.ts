@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { Response, User } from '../model/types'
+import { Response, User, UserPosition } from '../model/types'
 
 const baseQuery = fetchBaseQuery({
     baseUrl: import.meta.env.VITE_SERVER_URL,
@@ -14,7 +14,7 @@ export const userApi = createApi({
 
         registration: builder.mutation<Response, Partial<User>>({
             query: (user) => ({
-                url: 'registration/',
+                url: 'auth/registration/',
                 method: 'POST',
                 body: user,
                 headers: {
@@ -26,7 +26,7 @@ export const userApi = createApi({
 
         login: builder.mutation<Response, Partial<User>>({
             query: (user) => ({
-                url: 'login/',
+                url: 'auth/login/',
                 method: 'POST',
                 body: user,
                 headers: {
@@ -38,7 +38,7 @@ export const userApi = createApi({
 
         refresh: builder.mutation<Response, void>({
             query: () => ({
-                url: 'refresh',
+                url: 'auth/refresh',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -49,14 +49,25 @@ export const userApi = createApi({
 
         logout: builder.mutation<string, void>({
             query: () => ({
-                url: 'logout',
+                url: 'auth/logout',
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
                 },
             })
-        })
+        }),
+
+        getPositions: builder.query<UserPosition[], void>({
+            query: () => ({
+                url: 'positions/',
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
+                },
+            })
+        }),
 
     }),
 })

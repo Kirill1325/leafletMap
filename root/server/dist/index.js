@@ -32,6 +32,7 @@ const http_1 = __importDefault(require("http"));
 const appConfig_1 = require("./config/appConfig");
 const dbConfig_1 = require("./config/dbConfig");
 const ws_1 = __importStar(require("ws"));
+const positionsService_1 = require("./service/positionsService");
 const PORT = process.env.PORT || 3000;
 const app = (0, express_1.default)();
 (0, appConfig_1.configure)(app);
@@ -45,6 +46,9 @@ webSocketServer.on('connection', function connection(ws) {
     ws.on('message', function message(data, isBinary) {
         webSocketServer.clients.forEach(function each(client) {
             if (client.readyState === ws_1.default.OPEN) {
+                const { userId, position } = JSON.parse(data.toString());
+                // console.log(JSON.parse(data.toString()))
+                positionsService_1.positionsService.addPosition(userId, position.lat, position.lng);
                 client.send(data, { binary: isBinary });
             }
         });

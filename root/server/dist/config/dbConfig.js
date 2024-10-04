@@ -23,14 +23,6 @@ const createTables = () => {
       is_activated BOOLEAN,
       activation_link VARCHAR(255)
     );`;
-    // pool
-    //   .query('CREATE DATABASE leaflet;')
-    //   .then((res) => {
-    //     console.log('res', res);
-    //   })
-    //   .catch((err) => {
-    //     console.log('err', err);
-    //   });
     exports.pool
         .query(personTable)
         .then((res) => {
@@ -54,11 +46,12 @@ const createTables = () => {
         console.log(err);
     });
     const positionsTable = `CREATE TABLE IF NOT EXISTS
-    positions(
-      user_id integer,
-      lat integer,
-      lng integer
-    )`;
+    user_positions(
+      id SERIAL PRIMARY KEY,
+      user_id integer REFERENCES person (id),
+      lat VARCHAR(255),
+      lng VARCHAR(255)
+    );`;
     exports.pool
         .query(positionsTable)
         .then((res) => {

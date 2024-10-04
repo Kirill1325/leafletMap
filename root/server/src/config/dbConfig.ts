@@ -12,6 +12,7 @@ pool.on("connect", () => {
 });
 
 export const createTables = () => {
+
   const personTable = `CREATE TABLE IF NOT EXISTS
     person(
       id SERIAL PRIMARY KEY,
@@ -23,15 +24,6 @@ export const createTables = () => {
       activation_link VARCHAR(255)
     );`
 
-  // pool
-  //   .query('CREATE DATABASE leaflet;')
-  //   .then((res) => {
-  //     console.log('res', res);
-  //   })
-  //   .catch((err) => {
-  //     console.log('err', err);
-  //   });
-
   pool
     .query(personTable)
     .then((res) => {
@@ -40,6 +32,7 @@ export const createTables = () => {
     .catch((err) => {
       console.log('err', err);
     });
+
 
   const tokenTable = `CREATE TABLE IF NOT EXISTS
     token(
@@ -57,13 +50,15 @@ export const createTables = () => {
       console.log(err);
 
     });
+    
 
   const positionsTable = `CREATE TABLE IF NOT EXISTS
-    positions(
-      user_id integer,
-      lat integer,
-      lng integer
-    )`;
+    user_positions(
+      id SERIAL PRIMARY KEY,
+      user_id integer REFERENCES person (id),
+      lat VARCHAR(255),
+      lng VARCHAR(255)
+    );`
 
   pool
     .query(positionsTable)

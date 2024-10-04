@@ -4,6 +4,7 @@ import http from 'http';
 import { configure } from './config/appConfig';
 import { createTables } from './config/dbConfig';
 import WebSocket, { WebSocketServer } from 'ws';
+import { positionsService } from './service/positionsService';
 
 const PORT = process.env.PORT || 3000
 
@@ -28,6 +29,9 @@ webSocketServer.on('connection', function connection(ws) {
     ws.on('message', function message(data, isBinary) {
         webSocketServer.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
+                const { userId, position } = JSON.parse(data.toString())
+                // console.log(JSON.parse(data.toString()))
+                positionsService.addPosition(userId, position.lat, position.lng)
                 client.send(data, { binary: isBinary });
             }
         });

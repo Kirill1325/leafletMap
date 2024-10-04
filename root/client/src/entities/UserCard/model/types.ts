@@ -1,3 +1,5 @@
+import { LatLngLiteral } from "leaflet"
+
 export type User = {
     id: number
     username: string,
@@ -19,4 +21,9 @@ export type Response = {
     user: UserDto,
     accessToken: string,
     refreshToken: string
+}
+
+export type UserPosition = {
+    userId: number,
+    position: LatLngLiteral
 }
