@@ -8,9 +8,6 @@ export class AuthController {
         try {
             const { username, email, password } = req.body
 
-            // if(!username || !email || !password) {
-            //     return next(ApiError.BadRequest('Username, email and password are required'))
-            // }
             const userData = await authService.registration(username, email, password)
 
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' })

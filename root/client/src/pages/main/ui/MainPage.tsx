@@ -19,6 +19,7 @@ export const MainPage = () => {
   const dispatch = useAppDispatch()
 
   const [refresh] = userApi.useRefreshMutation()
+  const [logout] = userApi.useLogoutMutation()
 
   const [myPosition, setMyPosition] = useState<User>()
 
@@ -81,9 +82,16 @@ export const MainPage = () => {
 
   }, [])
 
+  const handleLogout = () => {
+    logout()
+    localStorage.removeItem('token')
+    navigate('/registration')
+  }
+
   return (
     myPosition &&
     <div>
+      <button onClick={() => handleLogout()}>bifffffffffba</button>
       <MapContainer center={myPosition.position} zoom={13} style={{ height: '100vh' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
