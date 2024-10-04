@@ -29,9 +29,9 @@ webSocketServer.on('connection', function connection(ws) {
     ws.on('message', function message(data, isBinary) {
         webSocketServer.clients.forEach(function each(client) {
             if (client.readyState === WebSocket.OPEN) {
-                const { userId, position } = JSON.parse(data.toString())
-                // console.log(JSON.parse(data.toString()))
-                positionsService.addPosition(userId, position.lat, position.lng)
+                const { user_id, lat, lng } = JSON.parse(data.toString())
+                console.log(JSON.parse(data.toString()))
+                positionsService.addPosition(user_id, lat, lng)
                 client.send(data, { binary: isBinary });
             }
         });

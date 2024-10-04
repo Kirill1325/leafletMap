@@ -22,6 +22,11 @@ export const MainPage = () => {
   const [logout] = userApi.useLogoutMutation()
 
   const [myPosition, setMyPosition] = useState<UserPosition>()
+  const { data: positions } = userApi.useGetPositionsQuery()
+
+  useEffect(() => {
+    console.log(positions)
+  }, [positions])
 
   const navigate = useNavigate()
 
@@ -48,7 +53,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     const successCallback = (position: GeolocationPosition) => {
-      setMyPosition({ userId: parseInt(user.id), position: { lat: position.coords.latitude, lng: position.coords.longitude } })
+      setMyPosition({ user_id: user.id, lat: position.coords.latitude, lng: position.coords.longitude })
     };
 
     const errorCallback = (error: GeolocationPositionError) => {
@@ -62,8 +67,6 @@ export const MainPage = () => {
 
   function connect() {
 
-    // socket.current = new WebSocket('https://leafletmap-glmu.onrender.com/')
-    // socket.current = new WebSocket('ws://localhost:8080/')
     socket.current = new WebSocket(import.meta.env.VITE_SERVER_URL)
 
     socket.current.onopen = () => {
@@ -100,26 +103,26 @@ export const MainPage = () => {
     myPosition &&
     <div>
       <button onClick={() => handleLogout()}>logout</button>
-      <MapContainer center={myPosition.position} zoom={13} style={{ height: '100vh' }}>
+      <MapContainer center={{ lat: myPosition.lat, lng: myPosition.lng }} zoom={13} style={{ height: '100vh' }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
         <MarkerClusterGroup>
-          <Marker position={myPosition.position}>
+          <Marker position={{ lat: myPosition.lat, lng: myPosition.lng }}>
             <Popup>
               {user.username}
             </Popup>
           </Marker>
 
-          {/* {users && users.map(user =>
-            <Marker key={user.userId} position={user.position}>
+          {positions && positions.map(pos =>
+            <Marker key={pos.user_id} position={{ lat: pos.lat, lng: pos.lng }}>
               <Popup>
-                A pretty CSS3 popup. <br /> {users.indexOf(user)}
+                A pretty CSS3 popup. <br /> {pos.user_id}
               </Popup>
             </Marker>
-          )} */}
+          )}
         </MarkerClusterGroup>
       </MapContainer>
     </div>

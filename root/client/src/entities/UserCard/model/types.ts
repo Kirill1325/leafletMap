@@ -1,21 +1,11 @@
-import { LatLngLiteral } from "leaflet"
-
 export type User = {
     id: number
     username: string,
     email: string,
     password: string,
-    // created_at: number,
-    // is_activated: boolean,
-    // activation_link: string
 }
 
-export type UserDto = {
-    username: string
-    email: string
-    id: string
-    // isActivated: boolean
-}
+export type UserDto = Omit<User, 'password'>
 
 export type Response = {
     user: UserDto,
@@ -24,6 +14,7 @@ export type Response = {
 }
 
 export type UserPosition = {
-    userId: number,
-    position: LatLngLiteral
+    user_id: number,
+    lat: number,
+    lng: number
 }

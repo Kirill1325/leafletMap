@@ -12,6 +12,10 @@ class PositionsService {
 
     async addPosition(userId: number, lat: string, lng: string) {
 
+        if (!userId || !lat || !lng) {
+            throw ApiError.BadRequest('User id, lat and lng are required')
+        }
+
         const positionCandidate = await pool.query('SELECT * FROM user_positions WHERE user_id = $1 ', [userId])
 
         if (positionCandidate.rows.length > 0) {

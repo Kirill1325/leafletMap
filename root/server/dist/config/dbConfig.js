@@ -47,10 +47,10 @@ const createTables = () => {
     });
     const positionsTable = `CREATE TABLE IF NOT EXISTS
     user_positions(
-      id SERIAL PRIMARY KEY,
+      id SERIAL PRIMARY KEY NOT NULL,
       user_id integer REFERENCES person (id),
-      lat VARCHAR(255),
-      lng VARCHAR(255)
+      lat real,
+      lng real
     );`;
     exports.pool
         .query(positionsTable)
