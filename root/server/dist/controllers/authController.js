@@ -6,8 +6,10 @@ class AuthController {
     async registration(req, res, next) {
         try {
             const { username, email, password } = req.body;
+            // if(!username || !email || !password) {
+            //     return next(ApiError.BadRequest('Username, email and password are required'))
+            // }
             const userData = await authService_1.authService.registration(username, email, password);
-            // console.log('userData', userData)
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: true, sameSite: 'none' });
             res.setHeader('Access-Control-Allow-Origin', process.env.CLIENT_URL);
             res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -80,11 +82,6 @@ class AuthController {
         catch (e) {
             res.json(e);
         }
-    }
-    async connect(req, res) {
-        res.setHeader('upgrade', 'websocket');
-        res.setHeader('connection', 'Upgrade');
-        res.send(req.headers);
     }
 }
 exports.AuthController = AuthController;

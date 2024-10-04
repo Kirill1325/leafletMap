@@ -13,6 +13,9 @@ const apiError_1 = require("../exceptions/apiError");
 class AuthService {
     async registration(username, email, password) {
         console.log(username, email, password);
+        if (!username || !email || !password) {
+            throw apiError_1.ApiError.BadRequest('Username, email and password are required');
+        }
         const mailCandidate = await dbConfig_1.pool.query('SELECT * FROM person WHERE email = $1', [email]);
         const usernameCandidate = await dbConfig_1.pool.query('SELECT * FROM person WHERE username = $1', [username]);
         if (mailCandidate.rows.length > 0) {
@@ -33,6 +36,9 @@ class AuthService {
         };
     }
     async login(email, password) {
+        if (!email || !password) {
+            throw apiError_1.ApiError.BadRequest('Email and password are required');
+        }
         const user = await dbConfig_1.pool.query('SELECT * FROM person WHERE email = $1', [email]);
         if (user.rows.length === 0) {
             throw apiError_1.ApiError.BadRequest('User not found');

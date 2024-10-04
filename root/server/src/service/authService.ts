@@ -11,6 +11,10 @@ class AuthService {
     async registration(username: string, email: string, password: string) {
         console.log(username, email, password)
 
+        if (!username || !email || !password) {
+            throw ApiError.BadRequest('Username, email and password are required')
+        }
+
         const mailCandidate = await pool.query('SELECT * FROM person WHERE email = $1', [email])
         const usernameCandidate = await pool.query('SELECT * FROM person WHERE username = $1', [username])
 
@@ -29,7 +33,7 @@ class AuthService {
         const userDto = new UserDto(user.rows[0])
         const tokens = await tokenService.generateTokens({ ...userDto })
         await tokenService.saveToken(user.rows[0].id, tokens.refreshToken)
- 
+
         return {
             ...tokens,
             user: { ...userDto }
@@ -37,6 +41,10 @@ class AuthService {
     }
 
     async login(email: string, password: string) {
+
+        if (!email || !password) {
+            throw ApiError.BadRequest('Email and password are required')
+        }
 
         const user = await pool.query('SELECT * FROM person WHERE email = $1', [email])
 

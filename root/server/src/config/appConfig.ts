@@ -9,13 +9,14 @@ export const configure = (app: Application) => {
 
     app
         .use(cookieParser())
-        .use(cors<Request>({ credentials: true, origin: process.env.CLIENT_URL })) 
+        .use(cors<Request>({ credentials: true, origin: process.env.CLIENT_URL }))
         .use(express.json())
         .use('/', authRouter)
-        // .use('/api', userRouter)
         .use(errorMiddleware)
         .get('/', (req, res: Response, next) => {
-            res.send(process.env.CLIENT_URL);
+            res.setHeader('upgrade', 'websocket')
+            res.setHeader('connection', 'Upgrade')
+            res.send('working');
         })
 
 }

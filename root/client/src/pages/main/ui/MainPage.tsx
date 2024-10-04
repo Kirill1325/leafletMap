@@ -20,10 +20,6 @@ export const MainPage = () => {
 
   const [refresh] = userApi.useRefreshMutation()
 
-  // const [logout] = userApi.useLogoutMutation()
-
-  // const { user } = useAppSelector(state => state.userSlice)
-
   const [myPosition, setMyPosition] = useState<User>()
 
   const navigate = useNavigate()
@@ -42,26 +38,34 @@ export const MainPage = () => {
 
   const socket = useRef<WebSocket>()
 
-  // function connect() {
+  function connect() {
 
-  //   // socket.current = new WebSocket('https://leafletmap-glmu.onrender.com/')
-  //   socket.current = new WebSocket('ws://localhost:8082/api')
+    // socket.current = new WebSocket('https://leafletmap-glmu.onrender.com/')
+    socket.current = new WebSocket('ws://localhost:8080/')
 
-  //   socket.current.onopen = () => {
-  //     console.log('Connected')
-  //   }
+    socket.current.onopen = () => {
+      console.log('Connected')
+    }
 
-  //   socket.current.onmessage = (event) => {
-  //     console.log(JSON.parse(event.data))
-  //   }
+    socket.current.onmessage = (event) => {
+      console.log(JSON.parse(event.data))
+    }
 
-  //   socket.current.onclose = () => {
-  //     console.log('Socket закрыт')
-  //   }
-  //   socket.current.onerror = () => {
-  //     console.log('Socket произошла ошибка')
-  //   }
-  // }
+    socket.current.onclose = () => {
+      console.log('Socket закрыт')
+    }
+    socket.current.onerror = () => {
+      console.log('Socket произошла ошибка')
+    }
+  }
+
+  useEffect(() => {
+    const timeoutId = setInterval(() => {
+      socket.current && socket.current.send(JSON.stringify(myPosition))
+    }, 5000)
+
+    return () => clearInterval(timeoutId)
+  }, [myPosition])
 
   useEffect(() => {
     const isLogged = localStorage.getItem('token')
@@ -69,30 +73,12 @@ export const MainPage = () => {
       refresh().unwrap().then(userFetced => {
         dispatch(setUser(userFetced.user))
       })
-      // connect()
+      connect()
     }else{
       navigate('/registration')
     }
 
   }, [])
-
-  // useEffect(() => {
-  //   !!!user.email && navigate('/registration')
-  // })
-
-  useEffect(() => {
-    const timeoutId = setInterval(() => {
-      socket.current && socket.current.send(JSON.stringify(myPosition))
-    }, 2500)
-
-    return () => clearInterval(timeoutId)
-  }, [myPosition])
-
-  // const handleLogout = () => {
-  //   logout()
-  //   localStorage.clear()
-  //   dispatch(setUser({} as UserDto))
-  // }
 
   return (
     myPosition &&
