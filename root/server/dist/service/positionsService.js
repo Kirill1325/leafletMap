@@ -5,8 +5,19 @@ const dbConfig_1 = require("../config/dbConfig");
 const apiError_1 = require("../exceptions/apiError");
 class PositionsService {
     async getPositions() {
-        const positions = await dbConfig_1.pool.query('SELECT * FROM user_positions;');
-        return positions.rows;
+        const positions = (await dbConfig_1.pool.query('SELECT * FROM user_positions;')).rows;
+        const users = (await dbConfig_1.pool.query('SELECT * FROM person;')).rows;
+        const mergedResults = users.map(user => {
+            const location = positions.find(loc => loc.user_id === user.id);
+            return location ? {
+                user_id: user.id,
+                username: user.username,
+                email: user.email,
+                lat: location.lat,
+                lng: location.lng
+            } : null;
+        }).filter(result => result !== null);
+        return mergedResults;
     }
     async addPosition(userId, lat, lng) {
         if (!userId || !lat || !lng) {

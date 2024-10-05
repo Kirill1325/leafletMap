@@ -120,7 +120,7 @@ export const MainPage = () => {
           {positions && positions.map(pos =>
             <Marker key={pos.user_id} position={{ lat: pos.lat, lng: pos.lng }}>
               <Popup>
-                A pretty CSS3 popup. <br /> {user.username}
+                A pretty CSS3 popup. <br /> {pos.username}
               </Popup>
             </Marker>
           )}

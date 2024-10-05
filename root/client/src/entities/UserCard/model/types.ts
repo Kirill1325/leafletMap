@@ -15,6 +15,8 @@ export type Response = {
 
 export type UserPosition = {
     user_id: number,
-    lat: number,
+    username?: string,
+    email?: string,
+    lat: number
     lng: number
 }

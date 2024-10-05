@@ -5,9 +5,21 @@ class PositionsService {
 
     async getPositions() {
 
-        const positions = await pool.query('SELECT * FROM user_positions;')
+        const positions = (await pool.query('SELECT * FROM user_positions;')).rows
+        const users = (await pool.query('SELECT * FROM person;')).rows
 
-        return positions.rows
+        const mergedResults = users.map(user => {
+            const location = positions.find(loc => loc.user_id === user.id);
+            return location ? {
+                user_id: user.id,
+                username: user.username,
+                email: user.email,
+                lat: location.lat,
+                lng: location.lng
+            } : null;
+        }).filter(result => result !== null);
+
+        return mergedResults
     }
 
     async addPosition(userId: number, lat: string, lng: string) {
