@@ -22,9 +22,25 @@ class PositionsController {
             next(e);
         }
     }
-    async clear(req, res, next) {
+    async clearToken(req, res, next) {
         try {
-            await positionsService_1.positionsService.clear();
+            await positionsService_1.positionsService.clearToken();
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+    async clearPos(req, res, next) {
+        try {
+            await positionsService_1.positionsService.clearPos();
+        }
+        catch (e) {
+            next(e);
+        }
+    }
+    async clearUser(req, res, next) {
+        try {
+            await positionsService_1.positionsService.clearUser();
         }
         catch (e) {
             next(e);
