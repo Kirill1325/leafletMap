@@ -9,7 +9,7 @@ import { UserPosition } from "../../../entities/UserCard/model/types";
 
 export const MainPage = () => {
 
-  // TODO: bug: not showing marker on first registration
+  // TODO: bug: marker showing with delay on first registration
   // TODO: hide user's marker when user logs out
 
   const dispatch = useAppDispatch()

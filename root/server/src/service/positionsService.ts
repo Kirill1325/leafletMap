@@ -7,10 +7,12 @@ class PositionsService {
 
         const positions = (await pool.query('SELECT * FROM user_positions;')).rows
         const users = (await pool.query('SELECT * FROM person;')).rows
+        const tokens = (await pool.query('SELECT * FROM token;')).rows
 
         const mergedResults = users.map(user => {
             const location = positions.find(loc => loc.user_id === user.id);
-            return location ? {
+            const logged = tokens.find(token => token.user_id === user.id)
+            return location && logged ? {
                 user_id: user.id,
                 username: user.username,
                 email: user.email,
