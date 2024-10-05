@@ -24,6 +24,8 @@ const webSocketServer = new WebSocketServer({ server });
 
 webSocketServer.on('connection', function connection(ws) {
 
+    // TODO: try A client WebSocket broadcasting to every other connected WebSocket clients, excluding itself
+
     ws.on('error', console.error)
 
     ws.on('message', function message(data, isBinary) {

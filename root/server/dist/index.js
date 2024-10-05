@@ -42,6 +42,7 @@ console.log(`Attempting to run server on port ${PORT}`);
 server.listen(PORT, () => console.log(`App listening on port ${PORT}`));
 const webSocketServer = new ws_1.WebSocketServer({ server });
 webSocketServer.on('connection', function connection(ws) {
+    // TODO: try A client WebSocket broadcasting to every other connected WebSocket clients, excluding itself
     ws.on('error', console.error);
     ws.on('message', function message(data, isBinary) {
         webSocketServer.clients.forEach(function each(client) {

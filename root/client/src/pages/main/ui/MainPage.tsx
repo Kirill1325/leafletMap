@@ -99,6 +99,7 @@ export const MainPage = () => {
 
   const handleLogout = () => {
     logout()
+    socket.current && socket.current.close()
     localStorage.removeItem('token')
     navigate('/registration')
   }
