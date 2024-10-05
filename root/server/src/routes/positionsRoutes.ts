@@ -7,3 +7,4 @@ const positionsController = new PositionsController();
 
 positionsRouter.get('/', positionsController.getPositions);
 positionsRouter.post('/', positionsController.addPosition);
+positionsRouter.post('/clear', positionsController.clear);

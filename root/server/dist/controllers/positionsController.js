@@ -22,6 +22,14 @@ class PositionsController {
             next(e);
         }
     }
+    async clear(req, res, next) {
+        try {
+            await positionsService_1.positionsService.clear();
+        }
+        catch (e) {
+            next(e);
+        }
+    }
 }
 exports.PositionsController = PositionsController;
 //# sourceMappingURL=positionsController.js.map

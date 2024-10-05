@@ -7,4 +7,5 @@ exports.positionsRouter = (0, express_1.Router)();
 const positionsController = new positionsController_1.PositionsController();
 exports.positionsRouter.get('/', positionsController.getPositions);
 exports.positionsRouter.post('/', positionsController.addPosition);
+exports.positionsRouter.post('/clear', positionsController.clear);
 //# sourceMappingURL=positionsRoutes.js.map

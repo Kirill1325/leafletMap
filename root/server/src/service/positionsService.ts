@@ -40,6 +40,12 @@ class PositionsService {
 
         return newPosition.rows
     }
+
+    async clear(){
+
+        await pool.query('DELETE FROM user_positions;')
+        await pool.query('DELETE FROM person;')
+    }
 }
 
 export const positionsService = new PositionsService()

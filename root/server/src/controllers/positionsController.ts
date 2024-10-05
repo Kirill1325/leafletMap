@@ -27,4 +27,12 @@ export class PositionsController {
         }
     }
 
+    async clear(req: Request, res: Response, next: NextFunction) {
+        try {
+            await positionsService.clear()
+        } catch (e) {
+            next(e)
+        }
+    }
+
 }
