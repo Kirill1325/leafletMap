@@ -89,6 +89,7 @@ export const MainPage = () => {
   useEffect(() => {
     const timeoutId = setInterval(() => {
       socket.current && socket.current.send(JSON.stringify(myPosition))
+      console.log('biba')
     }, 5000)
 
     return () => clearInterval(timeoutId)
