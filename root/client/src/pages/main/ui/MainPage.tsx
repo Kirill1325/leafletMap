@@ -55,7 +55,6 @@ export const MainPage = () => {
   useEffect(() => {
     const successCallback = (position: GeolocationPosition) => {
       setMyPosition({ user_id: user.id, lat: position.coords.latitude, lng: position.coords.longitude })
-      // dispatch(setUserPosition({ lat: position.coords.latitude, lng: position.coords.longitude }))
     }
 
     const errorCallback = (error: GeolocationPositionError) => {
@@ -121,7 +120,7 @@ export const MainPage = () => {
           {positions && positions.map(pos =>
             <Marker key={pos.user_id} position={{ lat: pos.lat, lng: pos.lng }}>
               <Popup>
-                A pretty CSS3 popup. <br /> {pos.user_id}
+                A pretty CSS3 popup. <br /> {user.username}
               </Popup>
             </Marker>
           )}
