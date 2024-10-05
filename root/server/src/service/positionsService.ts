@@ -43,22 +43,16 @@ class PositionsService {
 
     async clearToken(){
 
-        // await pool.query('DELETE FROM user_positions;')
         await pool.query('DELETE FROM token;')
-        // await pool.query('DELETE FROM person;')
 
     }
     async clearPos(){
 
         await pool.query('DELETE FROM user_positions;')
-        // await pool.query('DELETE FROM token;')
-        // await pool.query('DELETE FROM person;')
 
     }
     async clearUser(){
 
-        // await pool.query('DELETE FROM user_positions;')
-        // await pool.query('DELETE FROM token;')
         await pool.query('DELETE FROM person;')
 
     }

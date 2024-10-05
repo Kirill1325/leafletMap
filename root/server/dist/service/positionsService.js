@@ -32,18 +32,12 @@ class PositionsService {
         return newPosition.rows;
     }
     async clearToken() {
-        // await pool.query('DELETE FROM user_positions;')
         await dbConfig_1.pool.query('DELETE FROM token;');
-        // await pool.query('DELETE FROM person;')
     }
     async clearPos() {
         await dbConfig_1.pool.query('DELETE FROM user_positions;');
-        // await pool.query('DELETE FROM token;')
-        // await pool.query('DELETE FROM person;')
     }
     async clearUser() {
-        // await pool.query('DELETE FROM user_positions;')
-        // await pool.query('DELETE FROM token;')
         await dbConfig_1.pool.query('DELETE FROM person;');
     }
 }

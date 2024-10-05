@@ -9,6 +9,9 @@ import { UserPosition } from "../../../entities/UserCard/model/types";
 
 export const MainPage = () => {
 
+  // TODO: bug: not showing marker on first registration
+  // TODO: hide user's marker when user logs out
+
   const dispatch = useAppDispatch()
   const { user } = useAppSelector(state => state.userSlice)
 
@@ -21,8 +24,8 @@ export const MainPage = () => {
 
   const [myPosition, setMyPosition] = useState<UserPosition>()
 
-  const [skip, setSkip] = useState(false)
-  const { data: positions } = userApi.useGetPositionsQuery(1, {skip: skip})
+  const [skip, setSkip] = useState(true)
+  const { data: positions, refetch } = userApi.useGetPositionsQuery(1, { skip: skip })
 
   useEffect(() => {
     console.log(positions)
@@ -37,9 +40,8 @@ export const MainPage = () => {
     if (isLogged) {
       refresh().unwrap().then(userFetced => {
         dispatch(setUser(userFetced.user))
-        setSkip(true)
       })
-
+      setSkip(false)
     } else {
       navigate('/registration')
     }
@@ -76,6 +78,7 @@ export const MainPage = () => {
 
     socket.current.onmessage = (event) => {
       console.log(JSON.parse(event.data))
+      refetch()
     }
 
     socket.current.onclose = () => {
