@@ -9,8 +9,7 @@ import { UserPosition } from "../../../entities/UserCard/model/types";
 
 export const MainPage = () => {
 
-  // TODO: bug: marker showing with delay on first registration
-  // TODO: hide user's marker when user logs out
+  // TODO: fix marker blinking when refetching
 
   const dispatch = useAppDispatch()
   const { user } = useAppSelector(state => state.userSlice)
@@ -82,7 +81,7 @@ export const MainPage = () => {
     }
 
     socket.current.onclose = () => {
-      console.log('Socket закрыт')
+      console.log(`${user.username} Disconnected`)
     }
     socket.current.onerror = () => {
       console.log('Socket произошла ошибка')

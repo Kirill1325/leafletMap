@@ -1,11 +1,13 @@
 import React from 'react'
 import cl from './Button.module.scss'
 
-interface ButtonProps {
-    type: "submit" | "reset" | "button"
-    variant: 'contained' | 'outlined',
-    children: React.ReactNode,
-    onClick?: () => void
+export enum ButtonVariants {
+    contained = 'contained',
+    outlined = 'outlined',
+}
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    variant: ButtonVariants,
 }
 
 export const Button = ({ type, variant, children, onClick }: ButtonProps) => {
@@ -13,7 +15,7 @@ export const Button = ({ type, variant, children, onClick }: ButtonProps) => {
         <button
             type={type}
             onClick={onClick}
-            className={cl.button + ' ' + variant}
+            className={`${cl.button} ${cl[variant]}`}
         >
             {children}
         </button>

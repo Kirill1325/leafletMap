@@ -43,6 +43,8 @@ class PositionsService {
         return newPosition.rows
     }
 
+    // TODO: remove all clear methods
+
     async clearToken(){
 
         await pool.query('DELETE FROM token;')

@@ -1,57 +1,70 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    padding: 2.5em;
+@import "../../../shared/vars.scss";
 
-    >form {
-        width: 100%;
+.container {
+    background: $primary;
+    background: linear-gradient(90deg, $primary 16%, $secondary 65%);
+    height: 100vh;
+    padding: 2em;
+
+    >.content {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: 1em;
+        border-radius: 2vmax;
+        width: 100%;
+        height: 100%;
+        padding: 2.5em;
+        background-color: white;
 
-        >input {
+        >form {
             width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            >input {
+                width: 100%;
+                margin-top: .5em;
+                margin-bottom: 2.2em;
+            }
+
+            >button {
+                width: 100%;
+            }
         }
 
         >button {
             width: 100%;
         }
-    }
 
-    >button {
-        width: 100%;
-    }
+        >.headingContainer {
+            position: relative;
+            width: 100%;
+            text-align: center;
 
-    >h4 {
-        position: relative;
+            &::after {
+                content: '';
+                width: 100%;
+                border-bottom: solid 1px black;
+                position: absolute;
+                left: 0;
+                top: 50%;
+                z-index: 1;
+            }
 
-        // &::before {
-        //     position: absolute;
-        //     right: 110%;
-        //     top: 50%;
-        //     content: "";
-        //     width: 6em;
-        //     height: 1px;
-        //     background-color: black;
-        // }
+            >h4 {
+                background-color: white;
+                display: inline-block;
+                z-index: 3;
+                padding: 0 20px 0 20px;
+                position: relative;
+                margin: 0;
+            }
+        }
 
-        // &::after {
-        //     position: absolute;
-        //     left: 110%;
-        //     top: 50%;
-        //     content: "";
-        //     width: 6em;
-        //     height: 1px;
-        //     background-color: black;
-
-        // }
-    }
-
-    >a{
-        text-decoration: none;
-        color:black;
+        >a {
+            text-decoration: none;
+            color: black;
+        }
     }
 }
