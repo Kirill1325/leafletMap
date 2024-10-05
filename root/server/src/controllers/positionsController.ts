@@ -27,9 +27,25 @@ export class PositionsController {
         }
     }
 
-    async clear(req: Request, res: Response, next: NextFunction) {
+    async clearToken(req: Request, res: Response, next: NextFunction) {
         try {
-            await positionsService.clear()
+            await positionsService.clearToken()
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async clearPos(req: Request, res: Response, next: NextFunction) {
+        try {
+            await positionsService.clearPos()
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async clearUser(req: Request, res: Response, next: NextFunction) {
+        try {
+            await positionsService.clearUser()
         } catch (e) {
             next(e)
         }
