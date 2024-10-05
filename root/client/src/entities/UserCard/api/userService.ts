@@ -58,7 +58,7 @@ export const userApi = createApi({
             })
         }),
 
-        getPositions: builder.query<UserPosition[], void>({
+        getPositions: builder.query<UserPosition[], number>({
             query: () => ({
                 url: 'positions/',
                 method: 'GET',

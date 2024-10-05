@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserDto } from "./types";
 
-
 const initialState = {
     user: {} as UserDto,
 }

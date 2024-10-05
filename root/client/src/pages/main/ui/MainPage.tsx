@@ -2,10 +2,8 @@ import { useEffect, useRef, useState } from "react"
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { userApi } from "../../../entities/UserCard/api/userService";
-// import { UserDto } from "../../../entities/UserCard/model/types";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { setUser } from "../../../entities/UserCard/model/userSlice";
-// import cl from './MainPage.module.scss'
 import { useNavigate } from "react-router-dom";
 import { UserPosition } from "../../../entities/UserCard/model/types";
 
@@ -22,7 +20,9 @@ export const MainPage = () => {
   const [logout] = userApi.useLogoutMutation()
 
   const [myPosition, setMyPosition] = useState<UserPosition>()
-  const { data: positions } = userApi.useGetPositionsQuery()
+
+  const [skip, setSkip] = useState(false)
+  const { data: positions } = userApi.useGetPositionsQuery(1, {skip: skip})
 
   useEffect(() => {
     console.log(positions)
@@ -37,6 +37,7 @@ export const MainPage = () => {
     if (isLogged) {
       refresh().unwrap().then(userFetced => {
         dispatch(setUser(userFetced.user))
+        setSkip(true)
       })
 
     } else {
@@ -54,11 +55,12 @@ export const MainPage = () => {
   useEffect(() => {
     const successCallback = (position: GeolocationPosition) => {
       setMyPosition({ user_id: user.id, lat: position.coords.latitude, lng: position.coords.longitude })
-    };
+      // dispatch(setUserPosition({ lat: position.coords.latitude, lng: position.coords.longitude }))
+    }
 
     const errorCallback = (error: GeolocationPositionError) => {
-      console.log(error);
-    };
+      console.log(error)
+    }
 
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
   }, [user])
@@ -110,11 +112,11 @@ export const MainPage = () => {
         />
 
         <MarkerClusterGroup>
-          <Marker position={{ lat: myPosition.lat, lng: myPosition.lng }}>
-            <Popup>
+          {/* <Marker position={{ lat: myPosition.lat, lng: myPosition.lng }} >
+            <Popup >
               {user.username}
             </Popup>
-          </Marker>
+          </Marker> */}
 
           {positions && positions.map(pos =>
             <Marker key={pos.user_id} position={{ lat: pos.lat, lng: pos.lng }}>

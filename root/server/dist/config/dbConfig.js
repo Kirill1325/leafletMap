@@ -18,10 +18,7 @@ const createTables = () => {
       id SERIAL PRIMARY KEY,
       username VARCHAR(255) UNIQUE,
       email VARCHAR(255) UNIQUE,
-      password VARCHAR(255),
-      created_at integer,
-      is_activated BOOLEAN,
-      activation_link VARCHAR(255)
+      password VARCHAR(255)
     );`;
     exports.pool
         .query(personTable)
@@ -47,7 +44,7 @@ const createTables = () => {
     });
     const positionsTable = `CREATE TABLE IF NOT EXISTS
     user_positions(
-      id SERIAL PRIMARY KEY NOT NULL,
+      id SERIAL PRIMARY KEY,
       user_id integer REFERENCES person (id),
       lat real,
       lng real

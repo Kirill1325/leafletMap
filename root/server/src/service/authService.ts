@@ -28,7 +28,7 @@ class AuthService {
         const hashPassword = await bcrypt.hash(password, 12)
         // TODO: add mail activation link
 
-        const user = await pool.query('INSERT INTO person (username, email, password, created_at, is_activated, activation_link) VALUES ($1, $2, $3, $4, $5, $6 ) RETURNING *', [username, email, hashPassword, 123, true, 'link'])
+        const user = await pool.query('INSERT INTO person (username, email, password) VALUES ($1, $2, $3) RETURNING *', [username, email, hashPassword])
 
         const userDto = new UserDto(user.rows[0])
         const tokens = await tokenService.generateTokens({ ...userDto })

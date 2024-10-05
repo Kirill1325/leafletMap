@@ -5,7 +5,7 @@ export type User = {
     password: string,
 }
 
-export type UserDto = Omit<User, 'password'>
+export type UserDto = Omit<User, 'password'> 
 
 export type Response = {
     user: UserDto,

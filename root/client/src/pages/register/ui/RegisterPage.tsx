@@ -1,4 +1,4 @@
-import React, {   useState } from 'react'
+import React, { useState } from 'react'
 import { useAppDispatch } from '../../../app/store'
 import { userApi } from '../../../entities/UserCard'
 import { setUser } from '../../../entities/UserCard/model/userSlice'
