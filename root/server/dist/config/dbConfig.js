@@ -33,7 +33,7 @@ const createTables = () => {
       token_id SERIAL PRIMARY KEY,
       user_id integer REFERENCES person (id),
       refresh_token VARCHAR(255)
-    )`;
+    );`;
     exports.pool
         .query(tokenTable)
         .then((res) => {

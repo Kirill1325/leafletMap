@@ -33,16 +33,6 @@ class PositionsService {
         const newPosition = await dbConfig_1.pool.query('INSERT INTO user_positions (user_id, lat, lng) VALUES($1, $2, $3) RETURNING *', [userId, lat, lng]);
         return newPosition.rows;
     }
-    // TODO: remove all clear methods
-    async clearToken() {
-        await dbConfig_1.pool.query('DELETE FROM token;');
-    }
-    async clearPos() {
-        await dbConfig_1.pool.query('DELETE FROM user_positions;');
-    }
-    async clearUser() {
-        await dbConfig_1.pool.query('DELETE FROM person;');
-    }
 }
 exports.positionsService = new PositionsService();
 //# sourceMappingURL=positionsService.js.map

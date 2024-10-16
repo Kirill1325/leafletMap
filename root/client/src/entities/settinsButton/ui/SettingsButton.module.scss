@@ -1,0 +1,17 @@
+.button {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 3em;
+    height: 3em;
+    right: 2%;
+    top: 3%;
+    border-radius: 50%;
+    z-index: 500000;
+    background: black;
+    border: none;
+    outline: none;
+    padding: .7em;
+    cursor: pointer;
+}

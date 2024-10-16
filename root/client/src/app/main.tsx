@@ -7,6 +7,14 @@ import { MainPage } from '../pages/main/index.ts'
 import './App.scss'
 import { RegisterPage } from '../pages/register/index.ts'
 import { LoginPage } from '../pages/login/index.ts'
+import { io } from 'socket.io-client'
+
+export const socket = io(import.meta.env.VITE_SERVER_URL, {
+  extraHeaders: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
+  }
+});
 
 const router = createBrowserRouter([
   {

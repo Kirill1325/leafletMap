@@ -1,0 +1,32 @@
+.buttonGroup {
+    position: absolute;
+    // right: 2%;
+    bottom: 3%;
+    width: 100%;
+    z-index: 500000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+
+    >.button {
+        width: 3.5em;
+        height: 5em;
+        border-radius: 1vmax;
+        border: none;
+        outline: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: black;
+        padding: .7em;
+        cursor: pointer;
+
+        &:nth-child(2) {
+            width: 4.5em;
+            height: 6em;
+        }
+    }
+
+
+}

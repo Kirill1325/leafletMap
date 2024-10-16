@@ -19,8 +19,6 @@ const configure = (app) => {
         .use('/positions', positionsRoutes_1.positionsRouter)
         .use(errorMiddleware_1.errorMiddleware)
         .get('/', (req, res, next) => {
-        // res.setHeader('upgrade', 'websocket')
-        // res.setHeader('connection', 'Upgrade')
         res.send('working');
     });
 };

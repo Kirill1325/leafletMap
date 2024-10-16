@@ -22,33 +22,6 @@ class PositionsController {
             next(e);
         }
     }
-    async clearToken(req, res, next) {
-        try {
-            await positionsService_1.positionsService.clearToken();
-            return res.sendStatus(200);
-        }
-        catch (e) {
-            next(e);
-        }
-    }
-    async clearPos(req, res, next) {
-        try {
-            await positionsService_1.positionsService.clearPos();
-            return res.sendStatus(200);
-        }
-        catch (e) {
-            next(e);
-        }
-    }
-    async clearUser(req, res, next) {
-        try {
-            await positionsService_1.positionsService.clearUser();
-            return res.sendStatus(200);
-        }
-        catch (e) {
-            next(e);
-        }
-    }
 }
 exports.PositionsController = PositionsController;
 //# sourceMappingURL=positionsController.js.map

@@ -27,31 +27,32 @@ export class PositionsController {
         }
     }
 
-    async clearToken(req: Request, res: Response, next: NextFunction) {
-        try {
-            await positionsService.clearToken()
-            return res.sendStatus(200)
-        } catch (e) {
-            next(e)
-        }
-    }
+    // TODO: remove all clear methods
+    // async clearToken(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         await positionsService.clearToken()
+    //         return res.sendStatus(200)
+    //     } catch (e) {
+    //         next(e)
+    //     }
+    // }
 
-    async clearPos(req: Request, res: Response, next: NextFunction) {
-        try {
-            await positionsService.clearPos()
-            return res.sendStatus(200)
-        } catch (e) {
-            next(e)
-        }
-    }
+    // async clearPos(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         await positionsService.clearPos()
+    //         return res.sendStatus(200)
+    //     } catch (e) {
+    //         next(e)
+    //     }
+    // }
 
-    async clearUser(req: Request, res: Response, next: NextFunction) {
-        try {
-            await positionsService.clearUser()
-            return res.sendStatus(200)
-        } catch (e) {
-            next(e)
-        }
-    }
+    // async clearUser(req: Request, res: Response, next: NextFunction) {
+    //     try {
+    //         await positionsService.clearUser()
+    //         return res.sendStatus(200)
+    //     } catch (e) {
+    //         next(e)
+    //     }
+    // }
 
 }
