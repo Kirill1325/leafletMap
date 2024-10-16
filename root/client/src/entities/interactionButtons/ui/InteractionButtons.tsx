@@ -1,5 +1,5 @@
 import cl from './InteractionButtons.module.scss'
-import { userIcon, settingsIcon, chatIcon, friendsIcon } from '../../../shared/icons'
+import { userIcon,  chatIcon, friendsIcon } from '../../../shared/icons'
 
 export const InteractionButtons = () => {
     return (
