@@ -43,23 +43,6 @@ class PositionsService {
         return newPosition.rows
     }
 
-    // TODO: remove all clear methods
-
-    // async clearToken(){
-
-    //     await pool.query('DELETE FROM token;')
-
-    // }
-    // async clearPos(){
-
-    //     await pool.query('DELETE FROM user_positions;')
-
-    // }
-    // async clearUser(){
-
-    //     await pool.query('DELETE FROM person;')
-
-    // }
 }
 
 export const positionsService = new PositionsService()

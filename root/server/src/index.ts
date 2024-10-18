@@ -22,7 +22,7 @@ server.listen(PORT, () => console.log(`App listening on port ${PORT}`))
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.CLIENT_URL, // TODO: add client url
+        origin: process.env.CLIENT_URL,
     }
 });
 
@@ -42,11 +42,7 @@ io.on('connection', (socket: Socket) => {
 
     socket.on('send position', async (userId: number, lat: string, lng: string) => {
         console.log(userId, lat, lng)
-        const sentPosition = await positionsService.addPosition(userId, lat, lng)
-
-        // const recievedPositions = await positionsService.getPositions()
-
-        // socket.emit('receive message', recievedPositions)
+        await positionsService.addPosition(userId, lat, lng)
     })
 
     socket.on('get positions', async () => {

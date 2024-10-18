@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import { authRouter } from "../routes/authRoutes";
 import { errorMiddleware } from '../middleware/errorMiddleware';
 import { positionsRouter } from '../routes/positionsRoutes';
+import { userRouter } from '../routes/userRoutes';
 
 export const configure = (app: Application) => {
 
@@ -13,6 +14,7 @@ export const configure = (app: Application) => {
         .use(express.json())
         .use('/auth', authRouter)
         .use('/positions', positionsRouter)
+        .use('/user', userRouter)
         .use(errorMiddleware)
         .get('/', (req, res: Response, next) => {
             res.send('working');

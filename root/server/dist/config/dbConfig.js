@@ -57,6 +57,19 @@ const createTables = () => {
         .catch((err) => {
         console.log(err);
     });
+    const friendsTable = `CREATE TABLE IF NOT EXISTS
+    friends(
+      user1_id integer REFERENCES person (id),
+      user2_id integer REFERENCES person (id)
+    );`;
+    exports.pool
+        .query(friendsTable)
+        .then((res) => {
+        console.log(res);
+    })
+        .catch((err) => {
+        console.log(err);
+    });
 };
 exports.createTables = createTables;
 //# sourceMappingURL=dbConfig.js.map

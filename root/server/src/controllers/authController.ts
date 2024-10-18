@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { authService } from '../service/authService';
 
-
 export class AuthController {
 
     async registration(req: Request, res: Response, next: NextFunction) {
@@ -85,13 +84,6 @@ export class AuthController {
         }
     }
 
-    async getUsers(req: Request, res: Response) {
-        try {
-            const users = await authService.getUsers()
-            return res.json(users)
-        } catch (e) {
-            res.json(e)
-        }
-    }
+   
 
 }

@@ -77,10 +77,6 @@ class AuthService {
             user: { ...userDto }
         };
     }
-    async getUsers() {
-        const users = await dbConfig_1.pool.query('SELECT * FROM person');
-        return users.rows;
-    }
 }
 exports.authService = new AuthService();
 //# sourceMappingURL=authService.js.map

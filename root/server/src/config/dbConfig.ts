@@ -67,4 +67,20 @@ export const createTables = () => {
 
     });
 
+  const friendsTable = `CREATE TABLE IF NOT EXISTS
+    friends(
+      user1_id integer REFERENCES person (id),
+      user2_id integer REFERENCES person (id)
+    );`
+
+  pool
+    .query(friendsTable)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+
+    });
+
 };

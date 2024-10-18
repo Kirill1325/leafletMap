@@ -71,15 +71,6 @@ class AuthController {
             next(e);
         }
     }
-    async getUsers(req, res) {
-        try {
-            const users = await authService_1.authService.getUsers();
-            return res.json(users);
-        }
-        catch (e) {
-            res.json(e);
-        }
-    }
 }
 exports.AuthController = AuthController;
 //# sourceMappingURL=authController.js.map

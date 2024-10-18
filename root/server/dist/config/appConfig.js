@@ -10,6 +10,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const authRoutes_1 = require("../routes/authRoutes");
 const errorMiddleware_1 = require("../middleware/errorMiddleware");
 const positionsRoutes_1 = require("../routes/positionsRoutes");
+const userRoutes_1 = require("../routes/userRoutes");
 const configure = (app) => {
     app
         .use((0, cookie_parser_1.default)())
@@ -17,6 +18,7 @@ const configure = (app) => {
         .use(express_1.default.json())
         .use('/auth', authRoutes_1.authRouter)
         .use('/positions', positionsRoutes_1.positionsRouter)
+        .use('/user', userRoutes_1.userRouter)
         .use(errorMiddleware_1.errorMiddleware)
         .get('/', (req, res, next) => {
         res.send('working');

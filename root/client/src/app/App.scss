@@ -11,12 +11,18 @@ html {
     >body {
         max-height: 100vh;
 
-        >#root{
+        >#root {
             max-height: 100vh;
+            // background-color: gray;
         }
     }
 }
 
-.leaflet-bottom.leaflet-right{
+.leaflet-bottom.leaflet-right {
     display: none;
 }
+
+.leaflet-marker-icon {
+    position: relative;
+}
+

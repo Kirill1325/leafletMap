@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react"
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import MarkerClusterGroup from "react-leaflet-cluster";
 import { userApi } from "../../../entities/UserCard/api/userService";
 import { useAppDispatch, useAppSelector } from "../../../app/store";
 import { setUser } from "../../../entities/UserCard/model/userSlice";
@@ -8,12 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { UserPosition } from "../../../entities/UserCard/model/types";
 import cl from './MainPage.module.scss'
 import { InteractionButtons } from "../../../entities/interactionButtons";
-import { SettingsButton } from "../../../entities/settinsButton/ui/SettingsButton";
 import { socket } from "../../../app/main";
+import { Map } from "../../../widgets/map";
+import { ProfileWidget } from "../../../widgets/profileWidget";
+import { FriendsWidget } from "../../../widgets/friendsWidget";
 
 export const MainPage = () => {
 
-  // TODO: fix marker blinking when refetching
+  // TODO: add my position separately from others
 
   const dispatch = useAppDispatch()
   const { user } = useAppSelector(state => state.userSlice)
@@ -23,18 +23,14 @@ export const MainPage = () => {
   }, [user])
 
   const [refresh] = userApi.useRefreshMutation()
-  // const [logout] = userApi.useLogoutMutation()
 
   const [myPosition, setMyPosition] = useState<UserPosition>()
 
-  // const [skip, setSkip] = useState(true)
-  // const { data: positions, refetch } = userApi.useGetPositionsQuery(1, { skip: skip }) // TODO: remove it, messages must be fetched on websocket event
-
   const [positions, setPositions] = useState<UserPosition[]>([])
 
-  useEffect(() => {
-    console.log('positions ', positions)
-  }, [positions])
+  // useEffect(() => {
+  //   console.log('positions ', positions)
+  // }, [positions])
 
   const navigate = useNavigate()
 
@@ -46,18 +42,11 @@ export const MainPage = () => {
       refresh().unwrap().then(userFetced => {
         dispatch(setUser(userFetced.user))
       })
-      // setSkip(false)
     } else {
       navigate('/registration')
     }
 
   }, [])
-
-  // useEffect(() => {
-  //   if (isLogged && user.id) {
-  //     connect()
-  //   }
-  // }, [user])
 
   useEffect(() => {
     const successCallback = (position: GeolocationPosition) => {
@@ -71,32 +60,9 @@ export const MainPage = () => {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback)
   }, [user])
 
-  // const socket = useRef<WebSocket>()
-
-  // function connect() {
-
-  //   socket.current = new WebSocket(import.meta.env.VITE_SERVER_URL)
-
-  //   socket.current.onopen = () => {
-  //     console.log(`${user.username} Connected`)
-  //   }
-
-  //   socket.current.onmessage = (event) => {
-  //     console.log(JSON.parse(event.data))
-  //     // refetch()
-  //   }
-
-  //   socket.current.onclose = () => {
-  //     console.log(`${user.username} Disconnected`)
-  //   }
-  //   socket.current.onerror = () => {
-  //     console.log('Socket произошла ошибка')
-  //   }
-  // }
-
   useEffect(() => {
+    // myPosition && socket.emit('send position', user.id, myPosition.lat.toString(), myPosition.lng.toString())
     const timeoutId = setInterval(() => {
-      // socket.current && socket.current.send(JSON.stringify(myPosition))
       if (myPosition) {
         socket.emit('send position', user.id, myPosition.lat.toString(), myPosition.lng.toString())
       }
@@ -107,10 +73,9 @@ export const MainPage = () => {
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
-      // console.log('get positions')
       socket.emit('get positions')
       socket.on('receive positions', (positions: UserPosition[]) => {
-        console.log('positions ', positions)
+        // console.log('positions ', positions)
         setPositions(positions)
       })
     }, 5000)
@@ -118,37 +83,14 @@ export const MainPage = () => {
     return () => clearInterval(timeoutId)
   }, [])
 
-  // const handleLogout = () => {
-  //   logout()
-  //   socket.current && socket.current.close()
-  //   localStorage.removeItem('token')
-  //   navigate('/registration')
-  // }
-
   return (
     myPosition &&
     <div className={cl.container}>
-      {/* <InteractionButton icon={userIcon} onClick={() => handleLogout()}>logout</InteractionButton> */}
       <InteractionButtons />
-      <SettingsButton />
-      <MapContainer center={{ lat: myPosition.lat, lng: myPosition.lng }} zoomControl={false} zoom={13} style={{ height: '100vh' }}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-
-        <MarkerClusterGroup>
-          {positions && positions.map(pos =>
-            <Marker key={pos.user_id} position={{ lat: pos.lat, lng: pos.lng }}>
-              <Popup>
-                A pretty CSS3 popup. <br /> {pos.username}
-              </Popup>
-            </Marker>
-          )}
-        </MarkerClusterGroup>
-      </MapContainer>
-
-
-    </div>
+      {/* <SettingsButton /> */}
+      <ProfileWidget/>
+      <FriendsWidget/>
+      <Map myPosition={myPosition} />
+    </div >
   )
 }

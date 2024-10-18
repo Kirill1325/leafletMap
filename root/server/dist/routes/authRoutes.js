@@ -10,5 +10,4 @@ exports.authRouter.post('/login', authController.login);
 exports.authRouter.post('/logout', authController.logout);
 exports.authRouter.get('/activate/:link', authController.activate);
 exports.authRouter.post('/refresh', authController.refresh);
-exports.authRouter.get('/users', authController.getUsers);
 //# sourceMappingURL=authRoutes.js.map

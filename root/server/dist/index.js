@@ -19,7 +19,7 @@ console.log(`Attempting to run server on port ${PORT}`);
 server.listen(PORT, () => console.log(`App listening on port ${PORT}`));
 const io = new socket_io_1.Server(server, {
     cors: {
-        origin: process.env.CLIENT_URL, // TODO: add client url
+        origin: process.env.CLIENT_URL,
     }
 });
 io.on('connection', (socket) => {
@@ -34,9 +34,7 @@ io.on('connection', (socket) => {
     // });
     socket.on('send position', async (userId, lat, lng) => {
         console.log(userId, lat, lng);
-        const sentPosition = await positionsService_1.positionsService.addPosition(userId, lat, lng);
-        // const recievedPositions = await positionsService.getPositions()
-        // socket.emit('receive message', recievedPositions)
+        await positionsService_1.positionsService.addPosition(userId, lat, lng);
     });
     socket.on('get positions', async () => {
         const positions = await positionsService_1.positionsService.getPositions();

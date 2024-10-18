@@ -100,12 +100,6 @@ class AuthService {
         }
     }
 
-    async getUsers() {
-
-        const users = await pool.query('SELECT * FROM person')
-
-        return users.rows
-    }
 
 }
 

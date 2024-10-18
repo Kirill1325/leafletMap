@@ -2,10 +2,14 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import { userApi } from '../entities/UserCard'
 import userSlice from '../entities/UserCard/model/userSlice'
+import profileWidgetSlice from '../widgets/profileWidget/model/profileWidgetSlice'
+import friendsWidgetSlice from '../widgets/friendsWidget/model/friendsWidgetSlice'
 
 const rootReducer = combineReducers({
   [userApi.reducerPath]: userApi.reducer,
-  userSlice
+  userSlice,
+  profileWidgetSlice,
+  friendsWidgetSlice
 })
 
 const store = configureStore({
