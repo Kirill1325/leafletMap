@@ -14,6 +14,17 @@ class UserService {
         });
         return users;
     }
+    async getPossibleFriends(userId) {
+        const friends = await this.getFriends(userId);
+        const users = await this.getUsers();
+        const possibleFriends = users.filter(user => user.id !== userId).filter(user => {
+            if (friends.find(friend => friend.id === user.id)) {
+                return;
+            }
+            return user;
+        });
+        return possibleFriends;
+    }
     async sendFriendsRequest(senderId, receiverId) {
         console.log('senderId ', senderId);
         console.log('receiverId ', receiverId);
@@ -54,6 +65,9 @@ class UserService {
             };
         });
         return friendsList;
+    }
+    async deleteFriendship(userId, friendId) {
+        await dbConfig_1.pool.query('DELETE FROM friends WHERE (user1_id = $1 AND user2_id = $2) OR (user1_id = $2 AND user2_id = $1)', [userId, friendId]);
     }
 }
 exports.userService = new UserService();

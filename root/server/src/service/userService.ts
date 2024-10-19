@@ -22,6 +22,25 @@ class UserService {
         return users
     }
 
+    async getPossibleFriends(userId: number) {
+
+        const friends = await this.getFriends(userId)
+
+        const users = await this.getUsers()
+
+        const possibleFriends = users.filter(user => user.id !== userId).filter(user => {
+
+            if (friends.find(friend => friend.id === user.id)) {
+                return 
+            }
+
+            return user
+        })
+
+        return possibleFriends
+
+    }
+
     async sendFriendsRequest(senderId: number, receiverId: number) {
 
         console.log('senderId ', senderId)
@@ -76,6 +95,10 @@ class UserService {
 
         return friendsList
 
+    }
+
+    async deleteFriendship(userId: number, friendId: number) {
+        await pool.query('DELETE FROM friends WHERE (user1_id = $1 AND user2_id = $2) OR (user1_id = $2 AND user2_id = $1)', [userId, friendId])
     }
 }
 

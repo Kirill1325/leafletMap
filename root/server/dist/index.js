@@ -36,8 +36,8 @@ io.on('connection', (socket) => {
         console.log(userId, lat, lng);
         await positionsService_1.positionsService.addPosition(userId, lat, lng);
     });
-    socket.on('get positions', async () => {
-        const positions = await positionsService_1.positionsService.getPositions();
+    socket.on('get positions', async (userId) => {
+        const positions = await positionsService_1.positionsService.getPositions(userId);
         console.log('positions ', positions);
         socket.emit('receive positions', positions);
     });

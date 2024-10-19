@@ -1,25 +1,26 @@
 import { pool } from "../config/dbConfig"
 import { ApiError } from "../exceptions/apiError"
+import { userService } from "./userService"
 
 class PositionsService {
 
-    async getPositions() {
+    async getPositions(userId: number) {
 
         const positions = (await pool.query('SELECT * FROM user_positions;')).rows
-        const users = (await pool.query('SELECT * FROM person;')).rows
         const tokens = (await pool.query('SELECT * FROM token;')).rows
 
-        const mergedResults = users.map(user => {
-            const location = positions.find(loc => loc.user_id === user.id);
-            const logged = tokens.find(token => token.user_id === user.id)
+        const friends = await userService.getFriends(userId)
+
+        const mergedResults = friends.map(friend => {
+            const location = positions.find(loc => loc.user_id === friend.id)
+            const logged = tokens.find(token => token.user_id === friend.id)
             return location && logged ? {
-                user_id: user.id,
-                username: user.username,
-                email: user.email,
+                user_id: friend.id,
+                username: friend.username,
                 lat: location.lat,
                 lng: location.lng
             } : null;
-        }).filter(result => result !== null);
+        }).filter(result => result !== null)
 
         return mergedResults
     }

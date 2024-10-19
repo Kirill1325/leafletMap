@@ -45,9 +45,9 @@ io.on('connection', (socket: Socket) => {
         await positionsService.addPosition(userId, lat, lng)
     })
 
-    socket.on('get positions', async () => {
+    socket.on('get positions', async (userId: number) => {
 
-        const positions = await positionsService.getPositions()
+        const positions = await positionsService.getPositions(userId)
         console.log('positions ', positions)
 
         socket.emit('receive positions', positions)

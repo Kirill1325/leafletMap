@@ -21,6 +21,16 @@ export class UserController {
         }
     }
 
+    async getPossibleFriends(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { userId } = req.params
+            const possibleFriends = await userService.getPossibleFriends(parseInt(userId))
+            return res.json(possibleFriends)
+        } catch (e) {
+            next(e)
+        }
+    }
+
     async sendFriendsRequest(req: Request, res: Response, next: NextFunction) {
         try {
             const { senderId, receiverId } = req.body
@@ -39,6 +49,16 @@ export class UserController {
             const { userId } = req.params
             const friends = await userService.getFriends(parseInt(userId))
             return res.json(friends)
+        } catch (e) {
+            next(e)
+        }
+    }
+
+    async deleteFriendship(req: Request, res: Response, next: NextFunction) {
+        try {
+            const { userId, friendId } = req.params
+            await userService.deleteFriendship(parseInt(userId), parseInt(friendId))
+            return res.sendStatus(200)
         } catch (e) {
             next(e)
         }

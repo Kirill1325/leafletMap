@@ -58,9 +58,20 @@ export const userApi = createApi({
             })
         }),
 
-        getUsers: builder.query<Omit<UserDto, 'email'>[], void>({
-            query: () => ({
-                url: 'user',
+        // getUsers: builder.query<Omit<UserDto, 'email'>[], void>({
+        //     query: () => ({
+        //         url: 'user',
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
+        //         },
+        //     }),
+        // }),
+
+        getPOssibleFriends: builder.query<Omit<UserDto, 'email'>[], number>({
+            query: (userId) => ({
+                url: `user/${userId}/possibleFriends`,
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -86,6 +97,17 @@ export const userApi = createApi({
                 url: `user/sendFriendsRequest`,
                 method: 'POST',
                 body: { senderId: senderId, receiverId: receiverId },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,
+                },
+            })
+        }),
+
+        deleteFriendship: builder.mutation<void, { userId: number, friendId: number }>({
+            query: ({ userId, friendId }) => ({
+                url: `user/${userId}/${friendId}/deleteFriendship`,
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': import.meta.env.VITE_CLIENT_URL,

@@ -28,9 +28,9 @@ export const MainPage = () => {
 
   const [positions, setPositions] = useState<UserPosition[]>([])
 
-  // useEffect(() => {
-  //   console.log('positions ', positions)
-  // }, [positions])
+  useEffect(() => {
+    console.log('positions ', positions)
+  }, [positions])
 
   const navigate = useNavigate()
 
@@ -73,7 +73,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
-      socket.emit('get positions')
+      socket.emit('get positions', user.id)
       socket.on('receive positions', (positions: UserPosition[]) => {
         // console.log('positions ', positions)
         setPositions(positions)
@@ -90,7 +90,7 @@ export const MainPage = () => {
       {/* <SettingsButton /> */}
       <ProfileWidget/>
       <FriendsWidget/>
-      <Map myPosition={myPosition} />
+      <Map myPosition={myPosition} positions={positions} />
     </div >
   )
 }

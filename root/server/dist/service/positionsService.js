@@ -3,18 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.positionsService = void 0;
 const dbConfig_1 = require("../config/dbConfig");
 const apiError_1 = require("../exceptions/apiError");
+const userService_1 = require("./userService");
 class PositionsService {
-    async getPositions() {
+    async getPositions(userId) {
         const positions = (await dbConfig_1.pool.query('SELECT * FROM user_positions;')).rows;
-        const users = (await dbConfig_1.pool.query('SELECT * FROM person;')).rows;
         const tokens = (await dbConfig_1.pool.query('SELECT * FROM token;')).rows;
-        const mergedResults = users.map(user => {
-            const location = positions.find(loc => loc.user_id === user.id);
-            const logged = tokens.find(token => token.user_id === user.id);
+        const friends = await userService_1.userService.getFriends(userId);
+        const mergedResults = friends.map(friend => {
+            const location = positions.find(loc => loc.user_id === friend.id);
+            const logged = tokens.find(token => token.user_id === friend.id);
             return location && logged ? {
-                user_id: user.id,
-                username: user.username,
-                email: user.email,
+                user_id: friend.id,
+                username: friend.username,
                 lat: location.lat,
                 lng: location.lng
             } : null;
