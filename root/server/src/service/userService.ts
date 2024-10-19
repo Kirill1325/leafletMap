@@ -31,7 +31,7 @@ class UserService {
         const possibleFriends = users.filter(user => user.id !== userId).filter(user => {
 
             if (friends.find(friend => friend.id === user.id)) {
-                return 
+                return
             }
 
             return user
@@ -74,7 +74,10 @@ class UserService {
 
     async getFriends(userId: number) {
 
+        // console.log('userId ', userId)
+
         const friendships = (await pool.query('SELECT * FROM friends WHERE user1_id = $1 OR user2_id = $1', [userId])).rows
+        // console.log('friendships ', friendships)
 
         const friendsIds: number[] = friendships.map(friendship => {
             if (friendship.user1_id === userId) {

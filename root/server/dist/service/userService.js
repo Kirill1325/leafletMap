@@ -48,7 +48,9 @@ class UserService {
         await dbConfig_1.pool.query('INSERT INTO friends (user1_id, user2_id) VALUES ($1, $2) RETURNING *', [senderId, receiverId]);
     }
     async getFriends(userId) {
+        // console.log('userId ', userId)
         const friendships = (await dbConfig_1.pool.query('SELECT * FROM friends WHERE user1_id = $1 OR user2_id = $1', [userId])).rows;
+        // console.log('friendships ', friendships)
         const friendsIds = friendships.map(friendship => {
             if (friendship.user1_id === userId) {
                 return friendship.user2_id;

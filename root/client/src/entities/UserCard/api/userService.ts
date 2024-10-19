@@ -69,7 +69,7 @@ export const userApi = createApi({
         //     }),
         // }),
 
-        getPOssibleFriends: builder.query<Omit<UserDto, 'email'>[], number>({
+        getPossibleFriends: builder.query<Omit<UserDto, 'email'>[], number>({
             query: (userId) => ({
                 url: `user/${userId}/possibleFriends`,
                 method: 'GET',

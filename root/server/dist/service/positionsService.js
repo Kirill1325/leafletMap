@@ -6,19 +6,26 @@ const apiError_1 = require("../exceptions/apiError");
 const userService_1 = require("./userService");
 class PositionsService {
     async getPositions(userId) {
+        // console.log('userId ', userId)
+        // TODO: cache tokens and friends
         const positions = (await dbConfig_1.pool.query('SELECT * FROM user_positions;')).rows;
-        const tokens = (await dbConfig_1.pool.query('SELECT * FROM token;')).rows;
         const friends = await userService_1.userService.getFriends(userId);
+        // const users = (await pool.query('SELECT * FROM person;')).rows
+        // const tokens = (await pool.query('SELECT * FROM token;')).rows
+        console.log('friends ', friends);
+        console.log('positions ', positions);
         const mergedResults = friends.map(friend => {
             const location = positions.find(loc => loc.user_id === friend.id);
-            const logged = tokens.find(token => token.user_id === friend.id);
-            return location && logged ? {
+            // const logged = tokens.find(token => token.user_id === friend.id)
+            // console.log('logged ', logged, friend.id)
+            return location ? {
                 user_id: friend.id,
                 username: friend.username,
                 lat: location.lat,
                 lng: location.lng
             } : null;
         }).filter(result => result !== null);
+        console.log('mergedResults ', mergedResults);
         return mergedResults;
     }
     async addPosition(userId, lat, lng) {
@@ -27,11 +34,10 @@ class PositionsService {
         }
         const positionCandidate = await dbConfig_1.pool.query('SELECT * FROM user_positions WHERE user_id = $1 ', [userId]);
         if (positionCandidate.rows.length > 0) {
-            const updatedPosition = await dbConfig_1.pool.query('UPDATE user_positions SET lat = $1, lng = $2 WHERE user_id = $3 RETURNING *;', [lat, lng, userId]);
-            return updatedPosition.rows;
+            await dbConfig_1.pool.query('UPDATE user_positions SET lat = $1, lng = $2 WHERE user_id = $3 RETURNING *;', [lat, lng, userId]);
+            return;
         }
-        const newPosition = await dbConfig_1.pool.query('INSERT INTO user_positions (user_id, lat, lng) VALUES($1, $2, $3) RETURNING *', [userId, lat, lng]);
-        return newPosition.rows;
+        await dbConfig_1.pool.query('INSERT INTO user_positions (user_id, lat, lng) VALUES($1, $2, $3) RETURNING *', [userId, lat, lng]);
     }
 }
 exports.positionsService = new PositionsService();

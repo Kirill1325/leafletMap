@@ -4,13 +4,18 @@ import cl from './FriendsWidget.module.scss'
 import { closeFriendsWidget } from "../model/friendsWidgetSlice"
 import { useClickOutside } from "../../../shared/useOutsideClick"
 import { skipToken } from "@reduxjs/toolkit/query"
+import { useEffect } from "react"
 
 export const FriendsWidget = () => {
 
     const { user } = useAppSelector(state => state.userSlice)
 
-    const { data: possibleFriends, refetch: refetchPossibleFriends } = userApi.useGetPOssibleFriendsQuery(user.id ?? skipToken)
-    const { data: friends, refetch: refetchFriends } = userApi.useGetFriendsQuery(user.id)
+    useEffect(() => {
+        console.log('user ', user)
+    }, [user])
+
+    const { data: possibleFriends, refetch: refetchPossibleFriends } = userApi.useGetPossibleFriendsQuery(user.id ?? skipToken)
+    const { data: friends, refetch: refetchFriends } = userApi.useGetFriendsQuery(user.id ?? skipToken) 
 
     const [deletefriendship] = userApi.useDeleteFriendshipMutation()
 

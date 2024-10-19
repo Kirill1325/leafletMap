@@ -41,14 +41,14 @@ io.on('connection', (socket: Socket) => {
     // });
 
     socket.on('send position', async (userId: number, lat: string, lng: string) => {
-        console.log(userId, lat, lng)
+        // console.log(userId, lat, lng)
         await positionsService.addPosition(userId, lat, lng)
     })
 
     socket.on('get positions', async (userId: number) => {
 
         const positions = await positionsService.getPositions(userId)
-        console.log('positions ', positions)
+        // console.log('positions ', positions)
 
         socket.emit('receive positions', positions)
     })

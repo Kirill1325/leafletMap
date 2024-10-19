@@ -33,12 +33,12 @@ io.on('connection', (socket) => {
     //     console.log(`user ${userId} left room ${chatId}`)
     // });
     socket.on('send position', async (userId, lat, lng) => {
-        console.log(userId, lat, lng);
+        // console.log(userId, lat, lng)
         await positionsService_1.positionsService.addPosition(userId, lat, lng);
     });
     socket.on('get positions', async (userId) => {
         const positions = await positionsService_1.positionsService.getPositions(userId);
-        console.log('positions ', positions);
+        // console.log('positions ', positions)
         socket.emit('receive positions', positions);
     });
     socket.on('disconnect', () => console.log('user disconnected'));

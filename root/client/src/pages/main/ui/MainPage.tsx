@@ -50,7 +50,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     const successCallback = (position: GeolocationPosition) => {
-      setMyPosition({ user_id: user.id, lat: position.coords.latitude, lng: position.coords.longitude })
+      setMyPosition({ user_id: user.id, username: user.username, lat: position.coords.latitude, lng: position.coords.longitude })
     }
 
     const errorCallback = (error: GeolocationPositionError) => {
@@ -73,7 +73,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     const timeoutId = setInterval(() => {
-      socket.emit('get positions', user.id)
+      user.id && socket.emit('get positions', user.id)
       socket.on('receive positions', (positions: UserPosition[]) => {
         // console.log('positions ', positions)
         setPositions(positions)
@@ -81,15 +81,14 @@ export const MainPage = () => {
     }, 5000)
 
     return () => clearInterval(timeoutId)
-  }, [])
+  }, [user.id])
 
   return (
     myPosition &&
     <div className={cl.container}>
       <InteractionButtons />
-      {/* <SettingsButton /> */}
-      <ProfileWidget/>
-      <FriendsWidget/>
+      <ProfileWidget />
+      <FriendsWidget />
       <Map myPosition={myPosition} positions={positions} />
     </div >
   )
